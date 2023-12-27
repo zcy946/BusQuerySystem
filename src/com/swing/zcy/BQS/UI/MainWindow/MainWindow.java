@@ -64,7 +64,7 @@ public class MainWindow extends JFrame {
                     panelLeft.setBounds(0, 0, getWidth() / 8, getHeight());
                     panelLeft.headPortrait.setBounds((panelLeft.getWidth() - 50) / 2, (panelLeft.getWidth() - 100) / 2, 100, 100);
                     panelLeft.navigationBar.setBounds(0, panelLeft.getWidth(), panelLeft.getWidth(), panelLeft.getHeight() - panelLeft.getWidth() - 150);
-                    panelLeft.loginPanel.setBounds(-10, getHeight() - 100, panelLeft.getWidth(), 50);
+                    panelLeft.loginPanel.setBounds(-7, getHeight() - 100, panelLeft.getWidth(), 50);
                 }
                 panelCenter.setBounds(panelLeft.getWidth(), 0, getWidth() - panelLeft.getWidth(), getHeight());
                 panelCenter.page0.repaint();
@@ -72,6 +72,12 @@ public class MainWindow extends JFrame {
                 panelCenter.page2.repaint();
                 panelCenter.page3.repaint();
                 panelCenter.page4.repaint();
+
+                panelCenter.page4.accountField.setBounds(panelCenter.getWidth() / 6, (int)(panelLeft.getWidth() * 1.7), 230, 35);
+                panelCenter.page4.passwordField.setBounds(panelCenter.page4.accountField.getX(), panelCenter.page4.accountField.getY() + 75, 230, 35);
+                panelCenter.page4.accountText.setBounds(panelCenter.page4.accountField.getX(), panelCenter.page4.accountField.getY() - 60, 100, 100);
+                panelCenter.page4.passWordText.setBounds(panelCenter.page4.accountField.getX(), panelCenter.page4.passwordField.getY() - 60, 100, 100);
+                panelCenter.page4.loginBtn.setBounds(panelCenter.page4.accountField.getX(), panelCenter.page4.passwordField.getY() + 110, 230, 40);
 
 //                panelCenter.jScrollPane0.setBounds(20, 150, panelCenter.getWidth() - 55, panelCenter.getHeight() - 205);
                 panelCenter.page0.jScrollPane.setBounds(20, 150, panelCenter.getWidth() - 55, panelCenter.getHeight() - 205);
@@ -95,8 +101,8 @@ public class MainWindow extends JFrame {
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
                     // 用户完成选择时触发的代码
-                    System.out.println("Selected: " + panelLeft.navigationBar.getSelectedValue() +
-                            " [" + panelLeft.navigationBar.getSelectedIndex() + "]");
+//                    System.out.println("Selected: " + panelLeft.navigationBar.getSelectedValue() +
+//                            " [" + panelLeft.navigationBar.getSelectedIndex() + "]");
                     panelCenter.setShowPage(panelLeft.navigationBar.getSelectedIndex());
                 }
             }
@@ -105,7 +111,7 @@ public class MainWindow extends JFrame {
         this.panelLeft.loginPanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("Selected: 换乘查询 [4]");
+//                System.out.println("Selected: 换乘查询 [4]");
                 panelCenter.setShowPage(4);
                 super.mouseClicked(e);
             }

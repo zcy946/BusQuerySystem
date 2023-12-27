@@ -20,11 +20,18 @@
       "unicode_decimal": 58649
     },
     {
-      "icon_id": "10273331",
-      "name": "退出",
-      "font_class": "tuichu",
-      "unicode": "e606",
-      "unicode_decimal": 58886
+      "icon_id": "24889816",
+      "name": "Exit-2 退出",
+      "font_class": "Exit-2",
+      "unicode": "e7e9",
+      "unicode_decimal": 59369
+    },
+    {
+      "icon_id": "24889822",
+      "name": "Enter-2 登录",
+      "font_class": "Enter-2",
+      "unicode": "e7ea",
+      "unicode_decimal": 59370
     },
     {
       "icon_id": "33986996",

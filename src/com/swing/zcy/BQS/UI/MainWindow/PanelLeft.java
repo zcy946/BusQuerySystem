@@ -8,24 +8,22 @@ import java.io.File;
 import java.io.IOException;
 
 public class PanelLeft extends JPanel{
-    public JLabel headPortrait; // 头像
+    public static JLabel headPortrait; // 头像
     public JList<String> navigationBar; // 导航栏
-    public DefaultListModel<String> itemsInBar; // 导航栏中的项目
+    public static DefaultListModel<String> itemsInBar; // 导航栏中的项目
     public JPanel loginPanel; // 退出按钮
-    private Font iconFont; // 字体图标
+    public static Font iconFont; // 字体图标
     private final String fontFilePath = "res/iconFont/iconfont.ttf";
     private DefaultListCellRenderer MyListCellRenderer;
-//    private final String bgColor = "#F4F4FD";
-//    private final String bgColor = "#F1F1FB";
-    private JLabel loginIconLabel;
-    private JLabel loginTextLabel;
-    private boolean isLoginClicked;
+    public static JLabel loginIconLabel;
+    public static JLabel loginTextLabel;
+    public boolean isLoginClicked;
 
     public PanelLeft() {
         setLayout(null); // 打破布局，手动设置
         this.setBackground(Color.decode(MyColor.panelLeftBgColor));
         // 字体加载
-        this.iconFont = this.loadIconFont(this.fontFilePath);
+        iconFont = loadIconFont(this.fontFilePath);
         // 自定义渲染器[皮肤]
         this.loadMyRenderer();
         // 初始化login按钮
@@ -33,21 +31,21 @@ public class PanelLeft extends JPanel{
         ///////////////////////////////////////////////////////////////////////
 
         // 头像
-        this.headPortrait = new JLabel();
-        this.headPortrait.setFont(iconFont.deriveFont(50f));
-        this.headPortrait.setText("\ue6f3");
+        headPortrait = new JLabel();
+        headPortrait.setFont(iconFont.deriveFont(50f));
+        headPortrait.setText("\ue6f3");
 //        this.headPortrait.setForeground(Color.decode("#4F4F93"));
-        this.headPortrait.setForeground(Color.decode(MyColor.fontColor1));
-        this.add(this.headPortrait);
+        headPortrait.setForeground(Color.decode(MyColor.fontColor1));
+        this.add(headPortrait);
         ///////////////////////////////////////////////////////////////////////
 
         // 导航栏数据添加
-        this.itemsInBar = new DefaultListModel<>();
-        this.itemsInBar.addElement("线路查询");
-        this.itemsInBar.addElement("站点查询");
-        this.itemsInBar.addElement("换乘查询");
+        itemsInBar = new DefaultListModel<>();
+        itemsInBar.addElement("线路查询");
+        itemsInBar.addElement("站点查询");
+        itemsInBar.addElement("换乘查询");
         // 导航栏
-        this.navigationBar = new JList<>(this.itemsInBar);
+        this.navigationBar = new JList<>(itemsInBar);
         this.navigationBar.setBackground(Color.decode(MyColor.panelLeftBgColor));
 //        this.navigationBar.setBackground(Color.decode("#1e1f22")); // 测试用代码
         this.navigationBar.setSelectedIndex(0); // 设置默认选中项
@@ -62,17 +60,18 @@ public class PanelLeft extends JPanel{
         this.loginPanel.setLayout(null);
         // loginLabel
         // loginIconLabel
-        this.loginIconLabel = new JLabel("\ue606");
+        loginIconLabel = new JLabel("\ue7ea");
         loginIconLabel.setForeground(Color.decode(MyColor.fontColor2));
-        loginIconLabel.setFont(this.iconFont.deriveFont(25f));
-        loginIconLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        loginIconLabel.setFont(iconFont.deriveFont(25f));
+        loginIconLabel.setHorizontalAlignment(SwingConstants.CENTER);
         loginIconLabel.setBounds(10, 0, 50, 50);
 //        loginIconLabel.setBorder(new LineBorder(Color.BLACK, 2)); // 测试代码
         this.loginPanel.add(loginIconLabel);
         // loginTextLabel
-        this.loginTextLabel = new JLabel("Log in");
+        loginTextLabel = new JLabel("登 入");
+//        loginTextLabel = new JLabel("Log in");
         loginTextLabel.setForeground(Color.decode(MyColor.fontColor2));
-        loginTextLabel.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+        loginTextLabel.setFont(new Font("微软雅黑", Font.PLAIN, 16));
         loginTextLabel.setBounds(loginIconLabel.getWidth() + loginIconLabel.getX(), 0, 70, 50);
 //        loginTextLabel.setBorder(new LineBorder(Color.BLACK, 2)); // 测试代码
         this.loginPanel.add(loginTextLabel);
@@ -83,7 +82,7 @@ public class PanelLeft extends JPanel{
                 loginIconLabel.setForeground(Color.decode(MyColor.selectedColor));
                 loginIconLabel.setFont(iconFont.deriveFont(28f));
                 loginTextLabel.setForeground(Color.decode(MyColor.selectedColor));
-                loginTextLabel.setFont(new Font("微软雅黑", Font.BOLD, 18));
+                loginTextLabel.setFont(new Font("微软雅黑", Font.PLAIN, 17));
                 loginTextLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 super.mouseEntered(e);
             }
@@ -94,7 +93,7 @@ public class PanelLeft extends JPanel{
                     loginIconLabel.setForeground(Color.decode(MyColor.fontColor2));
                     loginIconLabel.setFont(iconFont.deriveFont(25f));
                     loginTextLabel.setForeground(Color.decode(MyColor.fontColor2));
-                    loginTextLabel.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+                    loginTextLabel.setFont(new Font("微软雅黑", Font.PLAIN, 16));
                 }
                 super.mouseExited(e);
             }
@@ -104,7 +103,7 @@ public class PanelLeft extends JPanel{
                 loginIconLabel.setForeground(Color.decode(MyColor.selectedColor));
                 loginIconLabel.setFont(iconFont.deriveFont(28f));
                 loginTextLabel.setForeground(Color.decode(MyColor.selectedColor));
-                loginTextLabel.setFont(new Font("微软雅黑", Font.BOLD, 18));
+                loginTextLabel.setFont(new Font("微软雅黑", Font.PLAIN, 17));
                 navigationBar.clearSelection(); // 取消导航栏的选中
             }
         });
@@ -146,7 +145,7 @@ public class PanelLeft extends JPanel{
                     loginIconLabel.setForeground(Color.decode(MyColor.fontColor2));
                     loginIconLabel.setFont(iconFont.deriveFont(25f));
                     loginTextLabel.setForeground(Color.decode(MyColor.fontColor2));
-                    loginTextLabel.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+                    loginTextLabel.setFont(new Font("微软雅黑", Font.PLAIN, 16));
                 } else {
                     renderer.setForeground(Color.decode(MyColor.fontColor2)); // 未选中时的文字颜色
                     renderer.setBackground(Color.decode(MyColor.panelLeftBgColor)); // 未选中时的背景色

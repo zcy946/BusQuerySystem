@@ -1,6 +1,6 @@
 @font-face {
   font-family: "iconfont"; /* Project id  */
-  src: url('iconfont.ttf?t=1703562115505') format('truetype');
+  src: url('iconfont.ttf?t=1703668223692') format('truetype');
 }
 
 .iconfont {
@@ -19,8 +19,12 @@
   content: "\e519";
 }
 
-.icon-tuichu:before {
-  content: "\e606";
+.icon-Exit-2:before {
+  content: "\e7e9";
+}
+
+.icon-Enter-2:before {
+  content: "\e7ea";
 }
 
 .icon-xiaoxi-zhihui:before {
