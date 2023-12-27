@@ -7,7 +7,6 @@ import java.awt.*;
 
 
 public class PanelCenter extends JPanel {
-    public static String bgColor = "#FEFEFF";
     public CardLayout cardLayout;
     public Page0 page0;
     public Page1 page1;
@@ -16,7 +15,7 @@ public class PanelCenter extends JPanel {
     public Page4 page4; // 登录界面
 
     public PanelCenter() {
-        this.setBackground(Color.decode(bgColor));
+        this.setBackground(Color.decode(MyColor.panelCenterBgColor));
         this.cardLayout = new CardLayout();
         this.setLayout(this.cardLayout);
         this.initPages(); // 初始化各个page

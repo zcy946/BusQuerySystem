@@ -17,6 +17,7 @@ public class MainWindow extends JFrame {
     public JPanel mainPanel;
     public PanelLeft panelLeft;
     public final PanelCenter panelCenter;
+
     public MainWindow() {
         try {
             UIManager.setLookAndFeel( new FlatLightLaf()); // 浅色皮肤1
