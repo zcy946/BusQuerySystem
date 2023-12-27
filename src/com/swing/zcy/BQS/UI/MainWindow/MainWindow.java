@@ -8,10 +8,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -53,7 +50,6 @@ public class MainWindow extends JFrame {
         this.panelCenter = new PanelCenter();
         this.mainPanel.add(this.panelCenter);
 
-
         this.add(mainPanel);
         this.initListener();
         setVisible(true);
@@ -75,13 +71,20 @@ public class MainWindow extends JFrame {
                 panelCenter.page2.repaint();
                 panelCenter.page3.repaint();
                 panelCenter.page4.repaint();
-                panelCenter.jScrollPane0.setBounds(20, 150, panelCenter.getWidth() - 55, panelCenter.getHeight() - 205);
+
+//                panelCenter.jScrollPane0.setBounds(20, 150, panelCenter.getWidth() - 55, panelCenter.getHeight() - 205);
+                panelCenter.page0.jScrollPane.setBounds(20, 150, panelCenter.getWidth() - 55, panelCenter.getHeight() - 205);
 //                panelCenter.jScrollPane0.repaint();
 //                System.out.println("getWidth(): " + getWidth() +
 //                        "\ngetHeight(): " + getHeight() +
 //                        "\npanelLeft.getWidth(): " + panelLeft.getWidth() +
 //                        "\npanelLeft.getHeight(): " + panelLeft.getHeight() +
-//                        "\n------------------------------------------------------------------"); // 测试代码
+//                        "\n------------------------------------------------------------------");
+//                System.out.println(panelCenter.page0.getWidth());
+//                System.out.println(panelCenter.page1.getWidth());
+//                System.out.println(panelCenter.page2.getWidth());
+//                System.out.println(panelCenter.page3.getWidth());
+//                System.out.println(panelCenter.page4.getWidth()); // 测试代码
                 super.componentResized(e);
             }
         });

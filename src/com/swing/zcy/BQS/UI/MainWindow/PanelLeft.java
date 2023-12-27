@@ -106,6 +106,7 @@ public class PanelLeft extends JPanel{
                 loginIconLabel.setFont(iconFont.deriveFont(28f));
                 loginTextLabel.setForeground(Color.decode("#ee4d38"));
                 loginTextLabel.setFont(new Font("微软雅黑", Font.BOLD, 18));
+                navigationBar.clearSelection(); // 取消导航栏的选中
             }
         });
         this.add(this.loginPanel);
@@ -150,6 +151,10 @@ public class PanelLeft extends JPanel{
                 } else {
                     renderer.setForeground(Color.decode("#7C7CB7")); // 未选中时的文字颜色
                     renderer.setBackground(Color.decode("#F8F8FF")); // 未选中时的背景色
+                }
+                // 移除边框
+                if (renderer instanceof JComponent) {
+                    ((JComponent) renderer).setBorder(BorderFactory.createEmptyBorder());
                 }
                 return renderer;
             }

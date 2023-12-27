@@ -1,4 +1,4 @@
-package com.swing.zcy.BQS.UI.MainWindow;
+package com.swing.zcy.BQS.UI.MainWindow.test;
 
 import javax.swing.*;
 import java.awt.*;
