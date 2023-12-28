@@ -137,7 +137,8 @@ public class Page4 extends JPanel{
 //                            PanelLeft.loginTextLabel.setForeground(Color.decode(MyColor.fontColor2));
 //                            PanelLeft.loginTextLabel.setFont(new Font("微软雅黑", Font.PLAIN, 16));
 
-                            JOptionPane.showMessageDialog(null, "登入成功", "信息", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "登录成功", "信息", JOptionPane.INFORMATION_MESSAGE);
+                            BusQuerySystem.isLogin = true;
 //                            System.out.println("登陆成功");
                         }
                         else {

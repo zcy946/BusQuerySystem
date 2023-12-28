@@ -1,5 +1,7 @@
 package com.swing.zcy.BQS.UI.MainWindow;
 
+import com.swing.zcy.BQS.BusQuerySystem;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -68,7 +70,7 @@ public class PanelLeft extends JPanel{
 //        loginIconLabel.setBorder(new LineBorder(Color.BLACK, 2)); // 测试代码
         this.loginPanel.add(loginIconLabel);
         // loginTextLabel
-        loginTextLabel = new JLabel("登 入");
+        loginTextLabel = new JLabel("登 录");
 //        loginTextLabel = new JLabel("Log in");
         loginTextLabel.setForeground(Color.decode(MyColor.fontColor2));
         loginTextLabel.setFont(new Font("微软雅黑", Font.PLAIN, 16));
@@ -105,6 +107,18 @@ public class PanelLeft extends JPanel{
                 loginTextLabel.setForeground(Color.decode(MyColor.selectedColor));
                 loginTextLabel.setFont(new Font("微软雅黑", Font.PLAIN, 17));
                 navigationBar.clearSelection(); // 取消导航栏的选中
+                // 注销
+                if (BusQuerySystem.isLogin) {
+                    int result = JOptionPane.showConfirmDialog(null, "是否确认退出?", "确认", JOptionPane.YES_NO_OPTION);
+                    if (result == JOptionPane.YES_OPTION) {
+                        itemsInBar.remove(3);
+                        headPortrait.setText("\ue6f3");
+                        loginIconLabel.setText("\ue7ea");
+                        loginTextLabel.setText("登 录");
+                    } else {
+                        System.out.println("已注销");
+                    }
+                }
             }
         });
         this.add(this.loginPanel);
