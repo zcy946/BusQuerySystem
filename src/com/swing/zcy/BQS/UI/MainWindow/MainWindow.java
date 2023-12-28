@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -73,14 +74,16 @@ public class MainWindow extends JFrame {
                 panelCenter.page3.repaint();
                 panelCenter.page4.repaint();
 
+                panelCenter.page0.jScrollPane.setBounds(20, 150, panelCenter.getWidth() - 55, panelCenter.getHeight() - 205);
+
+                panelCenter.page3.scrollPane.setBounds(20, 150, panelCenter.getWidth() - 55, panelCenter.getHeight() - 205);
+
                 panelCenter.page4.accountField.setBounds(panelCenter.getWidth() / 6, (int)(panelLeft.getWidth() * 1.7), 230, 35);
                 panelCenter.page4.passwordField.setBounds(panelCenter.page4.accountField.getX(), panelCenter.page4.accountField.getY() + 75, 230, 35);
                 panelCenter.page4.accountText.setBounds(panelCenter.page4.accountField.getX(), panelCenter.page4.accountField.getY() - 60, 100, 100);
                 panelCenter.page4.passWordText.setBounds(panelCenter.page4.accountField.getX(), panelCenter.page4.passwordField.getY() - 60, 100, 100);
                 panelCenter.page4.loginBtn.setBounds(panelCenter.page4.accountField.getX(), panelCenter.page4.passwordField.getY() + 110, 230, 40);
 
-//                panelCenter.jScrollPane0.setBounds(20, 150, panelCenter.getWidth() - 55, panelCenter.getHeight() - 205);
-                panelCenter.page0.jScrollPane.setBounds(20, 150, panelCenter.getWidth() - 55, panelCenter.getHeight() - 205);
 //                panelCenter.jScrollPane0.repaint();
 //                System.out.println("getWidth(): " + getWidth() +
 //                        "\ngetHeight(): " + getHeight() +

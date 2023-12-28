@@ -9,6 +9,8 @@ public class MyColor {
     public static String fontAnnotationColor3 = "#9FA5B5";
 
     public static String selectedColor = "#ee4d38";
+    public static String selectedFontColor = "#ffffff";
     public static String panelLeftBgColor = "#F1F1FB";
     public static String panelCenterBgColor = "#FEFEFF";
+    public static String tableCellBgColor = "#F1F1FB";
 }

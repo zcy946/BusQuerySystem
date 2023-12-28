@@ -115,6 +115,7 @@ public class PanelLeft extends JPanel{
                         headPortrait.setText("\ue6f3");
                         loginIconLabel.setText("\ue7ea");
                         loginTextLabel.setText("登 录");
+                        BusQuerySystem.isLogin = false;
                     } else {
                         System.out.println("已注销");
                     }

@@ -6,7 +6,7 @@ public class Bus {
     private Double price;
     private String serviceTime1;
     private String serviceTime2;
-    private  String availableCard;
+    private  String availableCards;
     private String[] stations;
     public Bus() {
     }
@@ -43,12 +43,12 @@ public class Bus {
         return serviceTime2;
     }
 
-    public void setAvailableCard(String availableCard) {
-        this.availableCard = availableCard;
+    public void setAvailableCards(String availableCards) {
+        this.availableCards = availableCards;
     }
 
-    public String getAvailableCard() {
-        return availableCard;
+    public String getAvailableCards() {
+        return availableCards;
     }
 
     public void setStations(String[] stations) {

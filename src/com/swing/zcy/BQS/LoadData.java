@@ -76,12 +76,11 @@ public class LoadData {
                 dataOfLine[3] = lastData[1]; // 3❤️ 时间2
                 dataOfLine[4] = extractLetters(lastData[3]); // 3❤️ 有效卡
             }
-            // 添加站点
-            for (int j = 1; j < this.maxColumn - 5 && (5 + j) < dataOfLine.length && j < preData1.size() - 1; j++) { // 下标为0的读过 下标为preData1.size() - 1也读过
-                if (!preData1.get(j).isEmpty()) {
-                    dataOfLine[4 + j] = preData1.get(j);
-                }
+            // 添加站点，从dataOfLine下标1到倒数第二个
+            for (int k = 1; k < preData1.size() - 1; k++) {
+                dataOfLine[k + 4] = preData1.get(k);
             }
+
             this.data.add(dataOfLine);
         }
         return this.data;
@@ -116,6 +115,7 @@ public class LoadData {
     }
     // 查看数据
     public void showData() {
+        // 💖 id 💖 票价 💖 时间1 💖 时间2 💖 有效卡 💖 站点s
         for (int i = 0; i < this.data.size(); i++) {
             System.out.print("No." + (i + 1) + ": ");
             Object[] dataArray = this.data.get(i);
@@ -125,7 +125,11 @@ public class LoadData {
             System.out.println();  // 换行，进入下一行
         }
         // 查看最大列数
-        System.out.println("共" + this.maxColumn + "行");
+        System.out.println("共" + this.maxColumn + "列");
+    }
+    // 获取最大列数
+    public int getMaxColumn() {
+        return this.maxColumn;
     }
 
 //    public static void main(String[] args) {

@@ -125,7 +125,7 @@ public class Page4 extends JPanel{
                     else {
                         String inputAccount = accountField.getText().trim();
                         String inputPassWord = passwordField.getText().trim();
-                        System.out.println(inputAccount + "\n" + inputPassWord);
+//                        System.out.println(inputAccount + "\n" + inputPassWord); // 测试代码
                         if (inputAccount.equals(BusQuerySystem.ACCOUNT) && inputPassWord.equals(BusQuerySystem.PASSWORD)) {
                             PanelLeft.itemsInBar.addElement("后台管理");
                             PanelLeft.headPortrait.setText("\ue519");
