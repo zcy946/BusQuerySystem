@@ -96,5 +96,10 @@ public class MyTableModel extends AbstractTableModel {
         for (int i = 5; i < BusQuerySystem.maxCapacity; i++) {
             this.columnNames[i] = "站点" + (i - 4);
         }
+        BusQuerySystem.isDataChanged = false;
+    }
+    public void addRow(Object[] rowData) {
+        this.dataOfTable.add(rowData);
+        fireTableRowsInserted(getRowCount() - 1, getRowCount() - 1);
     }
 }

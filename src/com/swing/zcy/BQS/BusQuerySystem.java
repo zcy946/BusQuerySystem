@@ -14,6 +14,7 @@ public class BusQuerySystem {
     public static String ACCOUNT;
     public static String PASSWORD;
     public static boolean isLogin;
+    public static boolean isDataChanged;
     private DatarPocessing dataProcessing;
     public static List<Object[]> data;
     public static int maxCapacity;
@@ -94,5 +95,14 @@ public class BusQuerySystem {
         this.dataProcessing.saveDatatoFile(data);
 
         // 写入数据库中
+    }
+    public static void reloadDataFromFile() {
+        // 从文件中重新加载数据
+        List<Object[]> data = DatarPocessing.loadDataFromFile();
+        if (data != null) {
+            BusQuerySystem.data = data;
+        } else {
+            System.out.println("文件读取失败");
+        }
     }
 }

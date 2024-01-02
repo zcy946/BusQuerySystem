@@ -1,6 +1,7 @@
 package com.swing.zcy.BQS.UI.MainWindow;
 
 import com.swing.zcy.BQS.BusQuerySystem;
+import com.swing.zcy.BQS.Utils.MessageBox;
 
 import javax.swing.*;
 import java.awt.*;
@@ -109,8 +110,7 @@ public class PanelLeft extends JPanel{
                 navigationBar.clearSelection(); // 取消导航栏的选中
                 // 注销
                 if (BusQuerySystem.isLogin) {
-                    int result = JOptionPane.showConfirmDialog(null, "是否确认退出?", "确认", JOptionPane.YES_NO_OPTION);
-                    if (result == JOptionPane.YES_OPTION) {
+                    if (MessageBox.showConfirmDialog("是否确认退出?")) {
                         itemsInBar.remove(3);
                         headPortrait.setText("\ue6f3");
                         loginIconLabel.setText("\ue7ea");

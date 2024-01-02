@@ -1,9 +1,6 @@
 package com.swing.zcy.BQS;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -14,32 +11,34 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DatarPocessing {
-    private List<String> preData;
-    private List<Object[]> data = new ArrayList<>();
-    private int maxColumn;
+    private static List<String> preData;
+    private static List<Object[]> data = new ArrayList<>();
+    private static Charset originalCharset;
+    private static int maxColumn;
     public DatarPocessing() {}
-    public List<Object[]> loadDataFromFile() {
+    public static List<Object[]> loadDataFromFile() {
         try {
-            this.preData = Files.readAllLines(Paths.get(BusQuerySystem.dataFilePath), Charset.forName("GBK"));
+            preData = Files.readAllLines(Paths.get(BusQuerySystem.dataFilePath), Charset.forName("GBK"));
+            originalCharset = Charset.forName("GBK");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         // 获取最大列数
         for (int i = 0; i < preData.size(); i++) {
             List<String> preData1 = Arrays.asList(preData.get(i).split("%"));
-            if (preData1.size() > this.maxColumn) {
-                this.maxColumn = preData1.size();
+            if (preData1.size() > maxColumn) {
+                maxColumn = preData1.size();
             }
 //            System.out.println(preData1.size());
         }
         // 额外加三列[最后一列数据分为四列]
-        this.maxColumn += 3;
+        maxColumn += 3;
         // 获取数据
         for (int i = 0; i < preData.size(); i++) {
 //        for (int i = 0; i < 5; i++) { // 先那五组数据方便查看
             List<String> preData1 = Arrays.asList(preData.get(i).split("%"));
 //            System.out.println(preData1); // 查看数据
-            Object[] dataOfLine = new Object[this.maxColumn];
+            Object[] dataOfLine = new Object[maxColumn];
             // 获取线路名
 //            System.out.println(preData1.get(0));
             dataOfLine[0] = preData1.get(0); // 0❤️ 站名
@@ -82,29 +81,57 @@ public class DatarPocessing {
                 dataOfLine[k + 4] = preData1.get(k);
             }
 
-            this.data.add(dataOfLine);
+            data.add(dataOfLine);
         }
-        return this.data;
+        return data;
     }
     // 保存/更新数据到文件
-    public void saveDatatoFile(List<Object[]> data) {
+    public static void saveDatatoFile(List<Object[]> data) {
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(BusQuerySystem.dataFilePath, false));
+//            BufferedWriter writer = new BufferedWriter(new FileWriter(BusQuerySystem.dataFilePath, false));
+            // 使用原始编码格式写入文件
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+                    new FileOutputStream(BusQuerySystem.dataFilePath), originalCharset));
             for (Object[] rowData: data) {
-                StringBuilder stringBuilder = new StringBuilder();
+                StringBuilder lineBuilder = new StringBuilder();
                 // 添加线路名
-                stringBuilder.append(rowData[0]);
-                // 添加站名
+                lineBuilder.append(rowData[0]);
+                // 写入站名
                 for (int i = 5; i < rowData.length; i++) {
-                    stringBuilder.append("%").append(rowData[i]);
+                    if (rowData[i] != null) {
+                        lineBuilder.append("%").append(rowData[i]);
+                    }
                 }
+                lineBuilder.append("%");
+                // 写入时间1
+                if (rowData[2] != null) {
+                    lineBuilder.append(rowData[2]);
+                }
+                // 写入时间2
+                if (rowData[3] != null) {
+                    lineBuilder.append(" ").append(rowData[3]);
+                }
+                // 写入票价
+                if (rowData[1] != null) {
+                    lineBuilder.append(" 票价").append(rowData[1]).append("元");
+                }
+                // 写入有效卡
+                if (rowData[4] != null) {
+                    lineBuilder.append(" ").append(rowData[4]).append("卡有效");
+                }
+                // 添加换行
+                lineBuilder.append(System.lineSeparator());
+                // 写入当前行
+                writer.write(lineBuilder.toString());
             }
+            // 关闭写入流
+            writer.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
     // 提取字符串中的数字
-    private double extractNumber(String input) {
+    private static double extractNumber(String input) {
         // 使用正则表达式匹配数字部分
         Pattern pattern = Pattern.compile("\\d+(\\.\\d+)?");
         Matcher matcher = pattern.matcher(input);
@@ -119,7 +146,7 @@ public class DatarPocessing {
         }
     }
     // 提取字符串中的字母
-    private String extractLetters(String input) {
+    private static String extractLetters(String input) {
         // 使用正则表达式匹配字母部分
         Pattern pattern = Pattern.compile("[A-Za-z]+");
         Matcher matcher = pattern.matcher(input);
