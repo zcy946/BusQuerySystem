@@ -1,16 +1,12 @@
 package com.swing.zcy.BQS.UI.MainWindow.CenterPages;
 
 import com.swing.zcy.BQS.BusQuerySystem;
-import com.swing.zcy.BQS.UI.MainWindow.MainWindow;
 import com.swing.zcy.BQS.UI.MainWindow.MyColor;
-import com.swing.zcy.BQS.UI.MainWindow.PanelCenter;
 import com.swing.zcy.BQS.UI.MainWindow.PanelLeft;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class Page4 extends JPanel{
     public JTable table;
@@ -20,7 +16,7 @@ public class Page4 extends JPanel{
     public JTextField accountField;
     public JPasswordField passwordField;
     public JButton loginBtn;
-    public JLabel image;
+    public JPanel imagePanel;
     public Page4() {
 //        this.setBackground(Color.decode("#FEF191")); // 测试代码
         this.setBackground(Color.decode(MyColor.panelCenterBgColor));
@@ -31,6 +27,8 @@ public class Page4 extends JPanel{
         this.initFields();
         // btn
         this.initButtons();
+        // image
+        this.initImage();
 
     }
     private void intiTextOnField() {
@@ -105,9 +103,10 @@ public class Page4 extends JPanel{
 
     private  void initButtons() {
         this.loginBtn = new JButton("Log in");
-        this.loginBtn.setBackground(Color.decode(MyColor.selectedColor));
+//        this.loginBtn.setBackground(Color.decode(MyColor.selectedColor));
+        this.loginBtn.setBackground(Color.decode(MyColor.buttonColor));
         this.loginBtn.setFont(new Font("微软雅黑", Font.BOLD, 16));
-        this.loginBtn.setForeground(Color.decode("#ffffff"));
+        this.loginBtn.setForeground(Color.decode(MyColor.selectedFontColor));
         this.add(loginBtn);
         this.loginBtn.addActionListener(new ActionListener() {
             @Override
@@ -149,5 +148,22 @@ public class Page4 extends JPanel{
                 }
             }
         });
+    }
+    private void initImage() {
+        ImageIcon imageIcon = new ImageIcon("res/backGroundImages/bgImage.png");
+
+        this.imagePanel = new JPanel() {
+            // 重写绘制方法
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                int panelWidth = getWidth(); // 获取容器宽高
+                int panelHeight = getHeight();
+                Graphics2D g2d = (Graphics2D) g; // 创建一个Graphics2D对象
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); // 设置抗锯齿
+                g2d.drawImage(imageIcon.getImage(), 0, 0, panelWidth, panelHeight, null); // 拉伸图片并绘制到面板上
+            }
+        };
+        this.add(this.imagePanel);
     }
 }

@@ -3,6 +3,7 @@ package com.swing.zcy.BQS.UI.MainWindow.CenterPages;
 import com.swing.zcy.BQS.BusQuerySystem;
 
 import javax.swing.table.AbstractTableModel;
+import java.util.ArrayList;
 import java.util.List;
 public class MyTableModel extends AbstractTableModel {
     private List<Object[]> dataOfTable;
@@ -55,6 +56,33 @@ public class MyTableModel extends AbstractTableModel {
         this.dataOfTable.get(rowIndex)[columnIndex] = aValue;
         fireTableCellUpdated(rowIndex, columnIndex);
     }
+
+    // 废案-删除单行
+    public void removeRow(int rowIndex) {
+        if (rowIndex >= 0 && rowIndex < this.dataOfTable.size()) { // 除了表头都能删除
+            this.dataOfTable.remove(rowIndex);
+            fireTableRowsDeleted(rowIndex, rowIndex); // 单独删除一行
+        }
+    }
+
+    // 删除行
+    public void removeRows(int[] rowIndices) {
+        // 必须倒着删，防止索引变化
+//        for (int index : rowIndices) {
+//            this.dataOfTable.remove(index);
+//        }
+        for (int i = rowIndices.length - 1; i >= 0; i--) {
+            int index = rowIndices[i];
+            this.dataOfTable.remove(index);
+        }
+        fireTableRowsDeleted(rowIndices[0], rowIndices[rowIndices.length - 1]);
+    }
+
+    // 获取表中数据
+    public List<Object[]> getAllData() {
+        return new ArrayList<>(this.dataOfTable);
+    }
+
 
     // 加载数据
     private void loadData() {

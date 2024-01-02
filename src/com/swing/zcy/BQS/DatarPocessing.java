@@ -1,5 +1,8 @@
 package com.swing.zcy.BQS;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -10,13 +13,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LoadData {
+public class DatarPocessing {
     private List<String> preData;
     private List<Object[]> data = new ArrayList<>();
     private int maxColumn;
-    public LoadData() {
-//        this.loadDataFromFile();
-    }
+    public DatarPocessing() {}
     public List<Object[]> loadDataFromFile() {
         try {
             this.preData = Files.readAllLines(Paths.get(BusQuerySystem.dataFilePath), Charset.forName("GBK"));
@@ -84,6 +85,23 @@ public class LoadData {
             this.data.add(dataOfLine);
         }
         return this.data;
+    }
+    // 保存/更新数据到文件
+    public void saveDatatoFile(List<Object[]> data) {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(BusQuerySystem.dataFilePath, false));
+            for (Object[] rowData: data) {
+                StringBuilder stringBuilder = new StringBuilder();
+                // 添加线路名
+                stringBuilder.append(rowData[0]);
+                // 添加站名
+                for (int i = 5; i < rowData.length; i++) {
+                    stringBuilder.append("%").append(rowData[i]);
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     // 提取字符串中的数字
     private double extractNumber(String input) {

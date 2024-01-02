@@ -14,6 +14,7 @@ public class BusQuerySystem {
     public static String ACCOUNT;
     public static String PASSWORD;
     public static boolean isLogin;
+    private DatarPocessing dataProcessing;
     public static List<Object[]> data;
     public static int maxCapacity;
     private List<Bus> buses;
@@ -26,16 +27,17 @@ public class BusQuerySystem {
         this.intiBuses();
         //加载界面
         MainWindow mainWindow = new MainWindow();
+        mainWindow.setVisible(true);
 
     }
     // 读取数据[默认从文件读取]
     private void loadData() {
-        LoadData loadData = new LoadData();
+        this.dataProcessing = new DatarPocessing();
 
-        data = loadData.loadDataFromFile();
-        this.maxCapacity = loadData.getMaxColumn();
+        data = dataProcessing.loadDataFromFile();
+        maxCapacity = dataProcessing.getMaxColumn();
         System.out.println("数据初始化完毕");
-//        loadData.showData(); // 测试代码 显示数据
+//        dataProcessing.showData(); // 测试代码 显示数据
     }
     // 读取账号密码文档
     private void loadAccounts() {
@@ -84,5 +86,13 @@ public class BusQuerySystem {
         }
         System.out.println("buses初始化完毕");
 
+    }
+
+    // 更新源数据
+    public void update() {
+        // 写入文件中
+        this.dataProcessing.saveDatatoFile(data);
+
+        // 写入数据库中
     }
 }

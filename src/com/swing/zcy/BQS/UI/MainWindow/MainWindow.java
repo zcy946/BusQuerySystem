@@ -54,7 +54,6 @@ public class MainWindow extends JFrame {
 
         this.add(mainPanel);
         this.initListener();
-        setVisible(true);
     }
     private void initListener() {
         // 监听器[自适应布局]
@@ -68,22 +67,26 @@ public class MainWindow extends JFrame {
                     panelLeft.loginPanel.setBounds(-7, getHeight() - 100, panelLeft.getWidth(), 50);
                 }
                 panelCenter.setBounds(panelLeft.getWidth(), 0, getWidth() - panelLeft.getWidth(), getHeight());
-                panelCenter.page0.repaint();
-                panelCenter.page1.repaint();
-                panelCenter.page2.repaint();
-                panelCenter.page3.repaint();
-                panelCenter.page4.repaint();
 
                 panelCenter.page0.jScrollPane.setBounds(20, 150, panelCenter.getWidth() - 55, panelCenter.getHeight() - 205);
 
                 panelCenter.page3.scrollPane.setBounds(20, 150, panelCenter.getWidth() - 55, panelCenter.getHeight() - 205);
+                panelCenter.page3.updateBtn.setBounds(panelCenter.page3.scrollPane.getX() + panelCenter.page3.scrollPane.getWidth() - 100 * 3 - 8 * 2, panelCenter.page3.scrollPane.getY() - 60, 100, 38);
+                panelCenter.page3.deleteBtn.setBounds(panelCenter.page3.scrollPane.getX() + panelCenter.page3.scrollPane.getWidth() - 100 * 2 - 8, panelCenter.page3.scrollPane.getY() - 60, 100, 38);
+                panelCenter.page3.saveBtn.setBounds(panelCenter.page3.scrollPane.getX() + panelCenter.page3.scrollPane.getWidth() - 100, panelCenter.page3.scrollPane.getY() - 60, 100, 38);
 
                 panelCenter.page4.accountField.setBounds(panelCenter.getWidth() / 6, (int)(panelLeft.getWidth() * 1.7), 230, 35);
                 panelCenter.page4.passwordField.setBounds(panelCenter.page4.accountField.getX(), panelCenter.page4.accountField.getY() + 75, 230, 35);
                 panelCenter.page4.accountText.setBounds(panelCenter.page4.accountField.getX(), panelCenter.page4.accountField.getY() - 60, 100, 100);
                 panelCenter.page4.passWordText.setBounds(panelCenter.page4.accountField.getX(), panelCenter.page4.passwordField.getY() - 60, 100, 100);
                 panelCenter.page4.loginBtn.setBounds(panelCenter.page4.accountField.getX(), panelCenter.page4.passwordField.getY() + 110, 230, 40);
+                panelCenter.page4.imagePanel.setBounds(panelCenter.page4.accountField.getX() + panelCenter.page4.accountField.getWidth() + 20, panelLeft.getWidth() / 2, panelCenter.getWidth() / 2, panelCenter.getWidth() / 2);
 
+                panelCenter.page0.repaint();
+                panelCenter.page1.repaint();
+                panelCenter.page2.repaint();
+                panelCenter.page3.repaint();
+                panelCenter.page4.repaint();
 //                panelCenter.jScrollPane0.repaint();
 //                System.out.println("getWidth(): " + getWidth() +
 //                        "\ngetHeight(): " + getHeight() +
