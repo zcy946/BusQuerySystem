@@ -67,7 +67,8 @@ public class MainWindow extends JFrame {
                 panelCenter.setBounds(panelLeft.getWidth(), 0, getWidth() - panelLeft.getWidth(), getHeight());
 
                 panelCenter.page0.scrollPane.setBounds(20, 150, panelCenter.getWidth() - 55, panelCenter.getHeight() - 205);
-
+                panelCenter.page0.searchBar.setBounds(panelCenter.page0.scrollPane.getX(), panelCenter.page0.scrollPane.getY() - 40 - 20, 400, 40);
+                panelCenter.page0.showAllRoutes.setBounds(panelCenter.page3.scrollPane.getX() + panelCenter.page3.scrollPane.getWidth() - 180, panelCenter.page0.scrollPane.getY() - 40 - 20, 180, 40);
 
                 panelCenter.page3.scrollPane.setBounds(20, 150, panelCenter.getWidth() - 55, panelCenter.getHeight() - 205);
                 panelCenter.page3.addNewDataBtn.setBounds(panelCenter.page3.scrollPane.getX() + panelCenter.page3.scrollPane.getWidth() - 100 * 3 - 8 * 2, panelCenter.page3.scrollPane.getY() - 60, 100, 38);

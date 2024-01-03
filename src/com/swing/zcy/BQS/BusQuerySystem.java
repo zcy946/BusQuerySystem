@@ -18,7 +18,7 @@ public class BusQuerySystem {
     private DatarPocessing dataProcessing;
     public static List<Object[]> data;
     public static int maxCapacity;
-    private List<Bus> buses;
+    public static List<Bus> buses;
     public BusQuerySystem() {
         // 初始化数据[默认从文件读取]
         this.loadData();

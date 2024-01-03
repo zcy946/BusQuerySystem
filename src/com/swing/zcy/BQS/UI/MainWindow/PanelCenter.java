@@ -1,6 +1,7 @@
 package com.swing.zcy.BQS.UI.MainWindow;
 
 import com.swing.zcy.BQS.UI.MainWindow.CenterPages.*;
+import com.swing.zcy.BQS.Utils.MyColor;
 
 import javax.swing.*;
 import java.awt.*;

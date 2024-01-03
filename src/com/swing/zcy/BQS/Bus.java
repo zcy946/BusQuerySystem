@@ -58,5 +58,17 @@ public class Bus {
     public String[] getStations() {
         return stations;
     }
+    public Object[] getAllInformation() {
+        Object[] allInformation = new Object[BusQuerySystem.maxCapacity];
+        allInformation[0] = this.getRouteID();
+        allInformation[1] = this.getPrice();
+        allInformation[2] = this.getServiceTime1();
+        allInformation[3] = this.getServiceTime2();
+        allInformation[4] = this.getAvailableCards();
+        for (int i = 5; i < allInformation.length; i++) {
+            allInformation[i] = this.getStations()[i - 5];
+        }
+        return allInformation;
+    }
 
 }

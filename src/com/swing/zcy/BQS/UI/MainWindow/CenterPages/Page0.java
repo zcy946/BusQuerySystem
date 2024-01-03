@@ -1,40 +1,164 @@
 package com.swing.zcy.BQS.UI.MainWindow.CenterPages;
 
 import com.swing.zcy.BQS.BusQuerySystem;
-import com.swing.zcy.BQS.DatarPocessing;
-import com.swing.zcy.BQS.UI.MainWindow.MyColor;
-import com.swing.zcy.BQS.UI.MainWindow.PanelCenter;
 import com.swing.zcy.BQS.Utils.MessageBox;
+import com.swing.zcy.BQS.Utils.MyColor;
+import com.swing.zcy.BQS.UI.MainWindow.PanelLeft;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Page0 extends JPanel {
     public JTable table;
     private MyTableModel myTableModel;
     public JScrollPane scrollPane;
+    public JPanel searchBar;
+    private JLabel searchIcon;
+    public JTextField searchField;
+    public JButton showAllRoutes;
 
     public Page0() {
         this.setLayout(null);
 //        this.page0.setBackground(Color.decode("#FFEFE6")); // 测试代码
         this.setBackground(Color.decode(MyColor.panelCenterBgColor));
+        // 初始化表格
+        String[] tempColumnNames = {"线路名", "票价", "运营时间1", "运营时间2", "有效卡类型"};
+        List<Object[]> tempDataOfTable = new ArrayList<>();
+        tempDataOfTable.add(new Object[BusQuerySystem.maxCapacity]);
+        this.initTable(tempColumnNames, tempDataOfTable, tempColumnNames.length);
         // 初始化按钮
         this.initButtons();
-        // 初始化表格
-        this.initTable();
     }
-    private void initTable() {
-        this.myTableModel = new MyTableModel();
+
+    private void initTable(String[] columnNames, List<Object[]> dataOfTable, int theNumberOfNotStation) {
+        this.myTableModel = new MyTableModel(columnNames, dataOfTable, theNumberOfNotStation);
         this.table = new JTable();
         table.setModel(myTableModel);
+        // 不让表格自动设置宽度
+        this.table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        this.table.setRowHeight(30);
+        // 设置列宽
+        this.setColumnWidth();
+        // 把table放入scrollPan方便查看
+        this.scrollPane = new JScrollPane(this.table);
+        this.add(this.scrollPane);
+    }
+
+    // 初始化按钮
+    private void initButtons() {
+        this.searchBar = new JPanel();
+        this.searchBar.setLayout(null);
+        this.searchBar.setBackground(Color.decode(MyColor.selectedFontColor));
+        this.searchBar.setBorder(BorderFactory.createLineBorder(Color.decode(MyColor.fontColor2)));
+        this.add(this.searchBar);
+
+        this.searchIcon = new JLabel("\ue611");
+        this.searchIcon.setFont(PanelLeft.iconFont.deriveFont(30f));
+        this.searchIcon.setForeground(Color.decode(MyColor.fontColor1));
+        this.searchIcon.setBounds(5, 5, 30, 30);
+        this.searchBar.add(this.searchIcon);
+
+        this.searchField = new JTextField();
+        this.searchField.setBackground(Color.decode(MyColor.selectedFontColor));
+        this.searchField.setBounds(5 + 30, 5, 400 - 30 - 10, 30);
+        this.searchField.setBorder(BorderFactory.createEmptyBorder());
+        this.searchField.setText("Search");
+        this.searchField.setForeground(Color.decode(MyColor.fontAnnotationColor2));
+        this.searchField.setFont(new Font("微软雅黑", Font.PLAIN, 15));
+        // 提示词
+        this.searchField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+//                System.out.println("in");
+                if (searchField.getText().equals("Search")) {
+                    searchField.setText("");
+                    searchField.setForeground(Color.decode(MyColor.fontColor1));
+                    searchField.setFont(new Font("微软雅黑", Font.PLAIN, 15));
+                }
+                super.focusGained(e);
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+//                System.out.println("out");
+                if (searchField.getText().equals("Search") || searchField.getText().isEmpty()) {
+                    searchField.setText("Search");
+                    searchField.setForeground(Color.decode(MyColor.fontAnnotationColor2));
+                    searchField.setFont(new Font("微软雅黑", Font.PLAIN, 15));
+                }
+                super.focusLost(e);
+            }
+        });
+        // 按下`Enter`搜索
+        this.searchField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+//                System.out.println("按下回车");
+                String searchedRouteId = searchField.getText();
+                if (searchedRouteId.isEmpty()) {
+                    MessageBox.showMessageDialog("请输入要检索的内容", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    System.out.println("检索: " + searchedRouteId);
+                    // 清表
+                    myTableModel.clearTableData();
+                    // 获取结果
+                    boolean isContains = false;
+                    int count = 0;
+                    for (var bus : BusQuerySystem.buses) {
+                        if (bus.getRouteID().contains(searchedRouteId)) {
+                            isContains = true;
+                            Object[] dataOfTable = bus.getAllInformation();
+                            myTableModel.addRow(dataOfTable);
+                            count++;
+//                            System.out.println("结果: " + Arrays.toString(dataOfTable));
+                        }
+                    }
+                    System.out.println("查询到" + count + "条信息");
+                    if (!isContains) {
+                        MessageBox.showMessageDialog("未查询到线路名为 `" + searchedRouteId + "` 的相关信息");
+                    }
+                    // 设置单元格宽度
+                    setColumnWidth();
+                }
+            }
+        });
+        this.searchBar.add(this.searchField);
+        this.showAllRoutes = new JButton("显示所有线路信息");
+        this.showAllRoutes.setBackground(Color.decode(MyColor.buttonColor));
+        this.showAllRoutes.setForeground(Color.decode(MyColor.selectedFontColor));
+        this.showAllRoutes.setFont(new Font("微软雅黑", Font.BOLD, 17));
+        this.showAllRoutes.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+//                System.out.println("点击");
+                // 清表
+                myTableModel.clearTableData();
+                // 获取结果
+                boolean isContains = false;
+                int count = 0;
+                for (var bus : BusQuerySystem.buses) {
+                    Object[] dataOfTable = bus.getAllInformation();
+                    myTableModel.addRow(dataOfTable);
+                    count++;
+                }
+                // 设置单元格宽度
+                setColumnWidth();
+                System.out.println("已显示所有线路信息，共" + count + "条");
+            }
+        });
+        this.add(showAllRoutes);
+    }
+
+    private void setColumnWidth() {
         // 根据表格内容动态设置列宽
-        TableColumnModel columnModel = this.table.getColumnModel();
+        TableColumnModel columnModel = table.getColumnModel();
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
             int maxWidth = 0;
             // 把每一列的渲染器都设置为自定义的渲染器
@@ -44,32 +168,19 @@ public class Page0 extends JPanel {
             String columnName = column.getHeaderValue().toString();
             maxWidth = Math.max(maxWidth, columnName.length() * 17);
             // 考虑每个单元格的内容长度
-            for (int row = 0; row < this.table.getRowCount(); row++) {
-                TableCellRenderer cellRenderer = this.table.getCellRenderer(row, i);
-                Object value = this.table.getValueAt(row, i);
-                Component cellRendererComponent = cellRenderer.getTableCellRendererComponent(this.table, value, false, false, row, i);
+            for (int row = 0; row < table.getRowCount(); row++) {
+                TableCellRenderer cellRenderer = table.getCellRenderer(row, i);
+                Object value = table.getValueAt(row, i);
+                Component cellRendererComponent = cellRenderer.getTableCellRendererComponent(table, value, false, false, row, i);
                 maxWidth = Math.max(maxWidth, cellRendererComponent.getPreferredSize().width);
             }
             // 表头设置表头的渲染器
-//            this.table.getTableHeader().setDefaultRenderer(new MyHeaderRenderer());
-            this.table.getTableHeader().setBackground(Color.decode(MyColor.fontColor2));
-            this.table.getTableHeader().setForeground(Color.decode(MyColor.selectedFontColor));
-            this.table.getTableHeader().setFont(new Font("微软雅黑", Font.BOLD, 14));
-            this.table.getTableHeader().setReorderingAllowed(false); // 禁止用户拖动列
+            table.getTableHeader().setBackground(Color.decode(MyColor.fontColor2));
+            table.getTableHeader().setForeground(Color.decode(MyColor.selectedFontColor));
+            table.getTableHeader().setFont(new Font("微软雅黑", Font.BOLD, 14));
+            table.getTableHeader().setReorderingAllowed(false); // 禁止用户拖动列
             // 设置每列的宽度
-            columnModel.getColumn(i).setPreferredWidth(maxWidth + this.table.getIntercellSpacing().width + 12);
+            columnModel.getColumn(i).setPreferredWidth(maxWidth + table.getIntercellSpacing().width + 12);
         }
-
-        // 不让表格自动设置宽度
-        this.table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        this.table.setRowHeight(30);
-        // 把table放入scrollPan方便查看
-        this.scrollPane = new JScrollPane(this.table);
-        this.add(this.scrollPane);
     }
-    // 初始化按钮
-    private void initButtons() {
-
-    }
-
 }

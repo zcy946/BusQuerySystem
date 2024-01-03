@@ -1,6 +1,6 @@
 package com.swing.zcy.BQS.UI.MainWindow.CenterPages;
 
-import com.swing.zcy.BQS.UI.MainWindow.MyColor;
+import com.swing.zcy.BQS.Utils.MyColor;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;

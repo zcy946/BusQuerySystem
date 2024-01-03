@@ -12,6 +12,9 @@ public class MyTableModel extends AbstractTableModel {
         // 加载数据
         this.loadData();
     }
+    public MyTableModel(String[] columnNames, List<Object[]> dataOfTable, int theNumberOfNotStation) {
+        this.loadData(columnNames, dataOfTable, theNumberOfNotStation);
+    }
 
     // 设置行数
     @Override
@@ -83,6 +86,13 @@ public class MyTableModel extends AbstractTableModel {
         return new ArrayList<>(this.dataOfTable);
     }
 
+    // 清空表格
+    public void clearTableData() {
+        int numRows = getRowCount();
+        for (int i = numRows - 1; i >= 0; i--) {
+            removeRow(i);
+        }
+    }
 
     // 加载数据
     private void loadData() {
@@ -98,6 +108,19 @@ public class MyTableModel extends AbstractTableModel {
         }
         BusQuerySystem.isDataChanged = false;
     }
+    private void loadData(String[] columnNames, List<Object[]> dataOfTable, int theNumberOfNotStation) {
+        this.dataOfTable = dataOfTable;
+        this.columnNames = new String[BusQuerySystem.maxCapacity];
+        for (int i = 0; i < theNumberOfNotStation; i++) {
+            this.columnNames[i] = columnNames[i];
+        }
+        for (int i = theNumberOfNotStation; i < BusQuerySystem.maxCapacity; i++) {
+            this.columnNames[i] = "站点" + (i - theNumberOfNotStation + 1);
+        }
+        BusQuerySystem.isDataChanged = false;
+    }
+
+    // 添加行
     public void addRow(Object[] rowData) {
         this.dataOfTable.add(rowData);
         fireTableRowsInserted(getRowCount() - 1, getRowCount() - 1);
