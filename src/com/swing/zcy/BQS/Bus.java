@@ -70,5 +70,19 @@ public class Bus {
         }
         return allInformation;
     }
+    public boolean isDirectRoute(String route1, String route2) {
+        int count = 0;
+        for (var route : this.stations) {
+            if (route.equals(route1)) {
+                count++;
+            }
+        }
+        if (count == 2) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 
 }

@@ -8,11 +8,14 @@ import java.util.List;
 public class MyTableModel extends AbstractTableModel {
     private List<Object[]> dataOfTable;
     private String[] columnNames;
-    public MyTableModel() {
+    private boolean isCellEditable;
+    public MyTableModel(boolean isCellEditable) {
+        this.isCellEditable = isCellEditable;
         // 加载数据
         this.loadData();
     }
-    public MyTableModel(String[] columnNames, List<Object[]> dataOfTable, int theNumberOfNotStation) {
+    public MyTableModel(String[] columnNames, List<Object[]> dataOfTable, int theNumberOfNotStation, boolean isCellEditable) {
+        this.isCellEditable = isCellEditable;
         this.loadData(columnNames, dataOfTable, theNumberOfNotStation);
     }
 
@@ -50,7 +53,7 @@ public class MyTableModel extends AbstractTableModel {
     // 设置是否可编辑
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return true;  // 全都可以编辑
+        return isCellEditable;
     }
 
     // 设置表格数据获取方式

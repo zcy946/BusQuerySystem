@@ -30,7 +30,7 @@ public class Page3 extends JPanel{
         this.initTable();
     }
     private void initTable() {
-        this.myTableModel = new MyTableModel();
+        this.myTableModel = new MyTableModel(true);
         this.table = new JTable();
         table.setModel(myTableModel);
         // 根据表格内容动态设置列宽

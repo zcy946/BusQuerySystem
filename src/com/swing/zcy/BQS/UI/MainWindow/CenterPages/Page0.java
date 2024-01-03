@@ -11,9 +11,6 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class Page0 extends JPanel {
     public JTable table;
@@ -22,6 +19,7 @@ public class Page0 extends JPanel {
     public JPanel searchBar;
     private JLabel searchIcon;
     public JTextField searchField;
+    public JButton searchBtn;
     public JButton showAllRoutes;
 
     public Page0() {
@@ -29,30 +27,28 @@ public class Page0 extends JPanel {
 //        this.page0.setBackground(Color.decode("#FFEFE6")); // 测试代码
         this.setBackground(Color.decode(MyColor.panelCenterBgColor));
         // 初始化表格
-        String[] tempColumnNames = {"线路名", "票价", "运营时间1", "运营时间2", "有效卡类型"};
-        List<Object[]> tempDataOfTable = new ArrayList<>();
-        tempDataOfTable.add(new Object[BusQuerySystem.maxCapacity]);
-        this.initTable(tempColumnNames, tempDataOfTable, tempColumnNames.length);
-        // 初始化按钮
-        this.initButtons();
+        this.initTable();
+        // 初始化控件
+        this.initWidgets();
     }
 
-    private void initTable(String[] columnNames, List<Object[]> dataOfTable, int theNumberOfNotStation) {
-        this.myTableModel = new MyTableModel(columnNames, dataOfTable, theNumberOfNotStation);
+    private void initTable() {
+        this.myTableModel = new MyTableModel(false);
+
         this.table = new JTable();
         table.setModel(myTableModel);
         // 不让表格自动设置宽度
         this.table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         this.table.setRowHeight(30);
         // 设置列宽
-        this.setColumnWidth();
+        this.setTableColumnWidth();
         // 把table放入scrollPan方便查看
         this.scrollPane = new JScrollPane(this.table);
         this.add(this.scrollPane);
     }
 
     // 初始化按钮
-    private void initButtons() {
+    private void initWidgets() {
         this.searchBar = new JPanel();
         this.searchBar.setLayout(null);
         this.searchBar.setBackground(Color.decode(MyColor.selectedFontColor));
@@ -69,7 +65,7 @@ public class Page0 extends JPanel {
         this.searchField.setBackground(Color.decode(MyColor.selectedFontColor));
         this.searchField.setBounds(5 + 30, 5, 400 - 30 - 10, 30);
         this.searchField.setBorder(BorderFactory.createEmptyBorder());
-        this.searchField.setText("Search");
+        this.searchField.setText("Enter the route name");
         this.searchField.setForeground(Color.decode(MyColor.fontAnnotationColor2));
         this.searchField.setFont(new Font("微软雅黑", Font.PLAIN, 15));
         // 提示词
@@ -77,7 +73,7 @@ public class Page0 extends JPanel {
             @Override
             public void focusGained(FocusEvent e) {
 //                System.out.println("in");
-                if (searchField.getText().equals("Search")) {
+                if (searchField.getText().equals("Enter the route name")) {
                     searchField.setText("");
                     searchField.setForeground(Color.decode(MyColor.fontColor1));
                     searchField.setFont(new Font("微软雅黑", Font.PLAIN, 15));
@@ -88,8 +84,8 @@ public class Page0 extends JPanel {
             @Override
             public void focusLost(FocusEvent e) {
 //                System.out.println("out");
-                if (searchField.getText().equals("Search") || searchField.getText().isEmpty()) {
-                    searchField.setText("Search");
+                if (searchField.getText().equals("Enter the route name") || searchField.getText().isEmpty()) {
+                    searchField.setText("Enter the route name");
                     searchField.setForeground(Color.decode(MyColor.fontAnnotationColor2));
                     searchField.setFont(new Font("微软雅黑", Font.PLAIN, 15));
                 }
@@ -101,35 +97,11 @@ public class Page0 extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 //                System.out.println("按下回车");
-                String searchedRouteId = searchField.getText();
-                if (searchedRouteId.isEmpty()) {
-                    MessageBox.showMessageDialog("请输入要检索的内容", JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    System.out.println("检索: " + searchedRouteId);
-                    // 清表
-                    myTableModel.clearTableData();
-                    // 获取结果
-                    boolean isContains = false;
-                    int count = 0;
-                    for (var bus : BusQuerySystem.buses) {
-                        if (bus.getRouteID().contains(searchedRouteId)) {
-                            isContains = true;
-                            Object[] dataOfTable = bus.getAllInformation();
-                            myTableModel.addRow(dataOfTable);
-                            count++;
-//                            System.out.println("结果: " + Arrays.toString(dataOfTable));
-                        }
-                    }
-                    System.out.println("查询到" + count + "条信息");
-                    if (!isContains) {
-                        MessageBox.showMessageDialog("未查询到线路名为 `" + searchedRouteId + "` 的相关信息");
-                    }
-                    // 设置单元格宽度
-                    setColumnWidth();
-                }
+                search();
             }
         });
         this.searchBar.add(this.searchField);
+        // 按钮-显示所有线路信息
         this.showAllRoutes = new JButton("显示所有线路信息");
         this.showAllRoutes.setBackground(Color.decode(MyColor.buttonColor));
         this.showAllRoutes.setForeground(Color.decode(MyColor.selectedFontColor));
@@ -149,14 +121,27 @@ public class Page0 extends JPanel {
                     count++;
                 }
                 // 设置单元格宽度
-                setColumnWidth();
+                setTableColumnWidth();
                 System.out.println("已显示所有线路信息，共" + count + "条");
             }
         });
         this.add(showAllRoutes);
+        // 按钮-查找
+        this.searchBtn = new JButton("搜索");
+        this.searchBtn.setBackground(Color.decode(MyColor.buttonColor));
+        this.searchBtn.setForeground(Color.decode(MyColor.selectedFontColor));
+        this.searchBtn.setFont(new Font("微软雅黑", Font.BOLD, 17));
+        this.searchBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+//                System.out.println("点击");
+                search();
+            }
+        });
+        this.add(this.searchBtn);
     }
 
-    private void setColumnWidth() {
+    private void setTableColumnWidth() {
         // 根据表格内容动态设置列宽
         TableColumnModel columnModel = table.getColumnModel();
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
@@ -181,6 +166,35 @@ public class Page0 extends JPanel {
             table.getTableHeader().setReorderingAllowed(false); // 禁止用户拖动列
             // 设置每列的宽度
             columnModel.getColumn(i).setPreferredWidth(maxWidth + table.getIntercellSpacing().width + 12);
+        }
+    }
+    // 搜索功能
+    private void search() {
+        String searchedRouteId = searchField.getText();
+        if (searchedRouteId.isEmpty()) {
+            MessageBox.showMessageDialog("请输入要检索的内容", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            System.out.println("检索线路: " + searchedRouteId);
+            // 清表
+            myTableModel.clearTableData();
+            // 获取结果
+            boolean isContains = false;
+            int count = 0;
+            for (var bus : BusQuerySystem.buses) {
+                if (bus.getRouteID().contains(searchedRouteId)) {
+                    isContains = true;
+                    Object[] dataOfTable = bus.getAllInformation();
+                    myTableModel.addRow(dataOfTable);
+                    count++;
+//                            System.out.println("结果: " + Arrays.toString(dataOfTable));
+                }
+            }
+            System.out.println("查询到" + count + "条信息");
+            if (!isContains) {
+                MessageBox.showMessageDialog("未查询到线路名为 `" + searchedRouteId + "` 的相关信息");
+            }
+            // 设置单元格宽度
+            setTableColumnWidth();
         }
     }
 }
