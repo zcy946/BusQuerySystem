@@ -20,7 +20,7 @@ public class Page0 extends JPanel {
     private JLabel searchIcon;
     public JTextField searchField;
     public JButton searchBtn;
-    public JButton showAllRoutes;
+    public JButton showAllRoutesInfo;
 
     public Page0() {
         this.setLayout(null);
@@ -102,11 +102,11 @@ public class Page0 extends JPanel {
         });
         this.searchBar.add(this.searchField);
         // 按钮-显示所有线路信息
-        this.showAllRoutes = new JButton("显示所有线路信息");
-        this.showAllRoutes.setBackground(Color.decode(MyColor.buttonColor));
-        this.showAllRoutes.setForeground(Color.decode(MyColor.selectedFontColor));
-        this.showAllRoutes.setFont(new Font("微软雅黑", Font.BOLD, 17));
-        this.showAllRoutes.addActionListener(new ActionListener() {
+        this.showAllRoutesInfo = new JButton("显示所有线路信息");
+        this.showAllRoutesInfo.setBackground(Color.decode(MyColor.buttonColor));
+        this.showAllRoutesInfo.setForeground(Color.decode(MyColor.selectedFontColor));
+        this.showAllRoutesInfo.setFont(new Font("微软雅黑", Font.BOLD, 17));
+        this.showAllRoutesInfo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 //                System.out.println("点击");
@@ -124,8 +124,9 @@ public class Page0 extends JPanel {
                 setTableColumnWidth();
                 System.out.println("已显示所有线路信息，共" + count + "条");
             }
+
         });
-        this.add(showAllRoutes);
+        this.add(showAllRoutesInfo);
         // 按钮-查找
         this.searchBtn = new JButton("搜索");
         this.searchBtn.setBackground(Color.decode(MyColor.buttonColor));
@@ -171,7 +172,7 @@ public class Page0 extends JPanel {
     // 搜索功能
     private void search() {
         String searchedRouteId = searchField.getText();
-        if (searchedRouteId.isEmpty()) {
+        if (searchedRouteId.isEmpty() || searchedRouteId.equals("Enter the route name")) {
             MessageBox.showMessageDialog("请输入要检索的内容", JOptionPane.INFORMATION_MESSAGE);
         } else {
             System.out.println("检索线路: " + searchedRouteId);

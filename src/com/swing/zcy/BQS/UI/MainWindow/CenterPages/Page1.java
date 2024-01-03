@@ -14,6 +14,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.util.*;
+import java.util.List;
 
 public class Page1 extends JPanel {
     public JTable table;
@@ -23,7 +25,7 @@ public class Page1 extends JPanel {
     private JLabel searchIcon;
     public JTextField searchField;
     public JButton searchBtn;
-    public JButton showAllStations;
+    public JButton showAllRoutesInfo;
 
     public Page1() {
         this.setLayout(null);
@@ -37,7 +39,6 @@ public class Page1 extends JPanel {
 
     private void initTable() {
         this.myTableModel = new MyTableModel(false);
-
         this.table = new JTable();
         table.setModel(myTableModel);
         // 不让表格自动设置宽度
@@ -100,16 +101,16 @@ public class Page1 extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 //                System.out.println("按下回车");
-                search();
+                search2();
             }
         });
         this.searchBar.add(this.searchField);
         // 按钮-显示所有站点信息
-        this.showAllStations = new JButton("显示所有站点信息");
-        this.showAllStations.setBackground(Color.decode(MyColor.buttonColor));
-        this.showAllStations.setForeground(Color.decode(MyColor.selectedFontColor));
-        this.showAllStations.setFont(new Font("微软雅黑", Font.BOLD, 17));
-        this.showAllStations.addActionListener(new ActionListener() {
+        this.showAllRoutesInfo = new JButton("显示所有线路信息");
+        this.showAllRoutesInfo.setBackground(Color.decode(MyColor.buttonColor));
+        this.showAllRoutesInfo.setForeground(Color.decode(MyColor.selectedFontColor));
+        this.showAllRoutesInfo.setFont(new Font("微软雅黑", Font.BOLD, 17));
+        this.showAllRoutesInfo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 //                System.out.println("点击");
@@ -128,7 +129,7 @@ public class Page1 extends JPanel {
                 System.out.println("已显示所有线路信息，共" + count + "条");
             }
         });
-        this.add(showAllStations);
+        this.add(showAllRoutesInfo);
         // 按钮-查找
         this.searchBtn = new JButton("搜索");
         this.searchBtn.setBackground(Color.decode(MyColor.buttonColor));
@@ -138,7 +139,7 @@ public class Page1 extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 //                System.out.println("点击");
-                search();
+                search2();
             }
         });
         this.add(this.searchBtn);
@@ -173,29 +174,137 @@ public class Page1 extends JPanel {
     }
 
     // 搜索功能
-    private void search() {
+    // 1.0 废案不适用
+//    private void search() {
+//        String searchedStationName = searchField.getText();
+//        if (searchedStationName.isEmpty() || searchedStationName.equals("Enter the station name")) {
+//            MessageBox.showMessageDialog("请输入要检索的内容", JOptionPane.INFORMATION_MESSAGE);
+//        } else {
+//            System.out.println("检索站点: " + searchedStationName);
+//            // 清表
+//            myTableModel.clearTableData();
+//            // 重设列名
+//            String[] columnNames = new String[BusQuerySystem.maxCapacity];
+//            columnNames[0] = "包含此站点的线路名";
+//            for (int i = 1; i < columnNames.length; i++) {
+//                columnNames[i] = "站点" + i;
+//            }
+//            myTableModel.setColumnNames(columnNames);
+//            // 获取结果
+//            boolean isContains = false;
+//            int count = 0;
+//            for (var bus : BusQuerySystem.buses) {
+//                String[] stations = bus.getStations();
+//                List<String> fitStations = new ArrayList<>();
+//                for (int i = 0; i < stations.length; i++) {
+//                    if (stations[i].contains(searchedStationName)) {
+//                        isContains = true;
+//                        if (!fitStations.contains(bus.getRouteID())) {
+//                            fitStations.add(bus.getRouteID());
+//                        }
+//                        fitStations.add(stations[i]);
+//                        count++;
+//                    }
+//                }
+//                if (!fitStations.isEmpty()) {
+//                    myTableModel.addRow(fitStations.toArray(new Object[0]));
+//                }
+//            }
+//            System.out.println("查询到" + count + "条信息");
+//            if (!isContains) {
+//                MessageBox.showMessageDialog("未查询到含有站点为 `" + searchedStationName + "` 的相关线路信息");
+//            }
+//            // 设置单元格宽度
+//            setTableColumnWidth();
+//        }
+//    }
+    // 2.0 废案 重复显示
+//    private void search1() {
+//        String searchedStationName = searchField.getText();
+//        if (searchedStationName.isEmpty() || searchedStationName.equals("Enter the station name")) {
+//            MessageBox.showMessageDialog("请输入要检索的内容", JOptionPane.INFORMATION_MESSAGE);
+//        } else {
+//            System.out.println("检索站点: " + searchedStationName);
+//            // 清表
+//            myTableModel.clearTableData();
+//            // 重设列名
+//            String[] columnNames = new String[BusQuerySystem.maxCapacity];
+//            columnNames[0] = "站点名";
+//            for (int i = 1; i < columnNames.length; i++) {
+//                columnNames[i] = "线路" + i;
+//            }
+//            myTableModel.setColumnNames(columnNames);
+//            // 获取结果
+//            boolean isContains = false;
+//            int count = 0;
+//            for (var bus : BusQuerySystem.buses) {
+//                String[] stations = bus.getStations();
+//                List<String> fitStations = new ArrayList<>();
+//                for (int i = 0; i < stations.length; i++) {
+//                    if (stations[i].contains(searchedStationName)) {
+//                        isContains = true;
+//                        fitStations.add(stations[i]);
+//                        if (!fitStations.contains(bus.getRouteID())) {
+//                            fitStations.add(bus.getRouteID());
+//                        }
+//                        count++;
+//                        myTableModel.addRow(fitStations.toArray(new Object[0]));
+//                    }
+//                }
+//            }
+//            System.out.println("查询到" + count + "条信息");
+//            if (!isContains) {
+//                MessageBox.showMessageDialog("未查询到含有站点为 `" + searchedStationName + "` 的相关线路信息");
+//            }
+//            // 设置单元格宽度
+//            setTableColumnWidth();
+//        }
+//    }
+    private void search2() {
         String searchedStationName = searchField.getText();
-        if (searchedStationName.isEmpty()) {
+        if (searchedStationName.isEmpty() || searchedStationName.equals("Enter the station name")) {
             MessageBox.showMessageDialog("请输入要检索的内容", JOptionPane.INFORMATION_MESSAGE);
         } else {
             System.out.println("检索站点: " + searchedStationName);
             // 清表
             myTableModel.clearTableData();
+            // 重设列名
+            String[] columnNames = new String[BusQuerySystem.buses.size() / 2]; // 最大容量直接设置为路线总数(每个路线都有来回两个)
+            columnNames[0] = "站点名";
+            for (int i = 1; i < columnNames.length; i++) {
+                columnNames[i] = "线路" + i;
+            }
+            myTableModel.setColumnNames(columnNames);
             // 获取结果
             boolean isContains = false;
-            int count = 0;
+            int stationCount = 0;
+            int routeCount = 0;
+            Map<String, List<String>> stationRoutesMap = new HashMap<>(); // 用map更简单过滤重复
             for (var bus : BusQuerySystem.buses) {
                 String[] stations = bus.getStations();
-                for (var station : stations) {
-                    if (station.contains(searchedStationName)) {
+                for (int i = 0; i < stations.length; i++) {
+                    if (stations[i].contains(searchedStationName)) {
                         isContains = true;
-                        Object[] dataOfTable = bus.getAllInformation();
-                        myTableModel.addRow(dataOfTable);
-                        count++;
+                        String stationName = stations[i];
+                        String routeName = bus.getRouteID();
+                        // 查看是否已存该键值对，不存在就创建，存在直接添加
+                        if (!stationRoutesMap.containsKey(stationName)) {
+                            stationRoutesMap.put(stationName, new ArrayList<>());
+                            stationRoutesMap.get(stationName).add(stationName); // 把值的第一个位置放置站点名，用于显示数据
+                            stationCount++;
+                        }
+                        stationRoutesMap.get(stationName).add(routeName); // 将路线名添加到站点对应的列表中
+                        routeCount++;
                     }
                 }
             }
-            System.out.println("查询到" + count + "条信息");
+            // 获取stationRoutesMap键值对的值部分
+            for (List<String> routeList : stationRoutesMap.values()) {
+                myTableModel.addRow(routeList.toArray(new Object[0])); // 写入表格
+            }
+            myTableModel.setColumnNames(columnNames);
+
+            System.out.println("查询到" + stationCount + "条站点信息，" + routeCount + "条线路信息");
             if (!isContains) {
                 MessageBox.showMessageDialog("未查询到含有站点为 `" + searchedStationName + "` 的相关线路信息");
             }
@@ -203,4 +312,6 @@ public class Page1 extends JPanel {
             setTableColumnWidth();
         }
     }
+
+
 }

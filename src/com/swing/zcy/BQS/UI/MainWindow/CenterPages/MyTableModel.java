@@ -25,7 +25,7 @@ public class MyTableModel extends AbstractTableModel {
         return this.dataOfTable.size();
     }
 
-    // 设置行数
+    // 设置列数
     @Override
     public int getColumnCount() {
         return this.columnNames.length;
@@ -34,8 +34,14 @@ public class MyTableModel extends AbstractTableModel {
     // 设置获取表格中指定位置的值的方法
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        return this.dataOfTable.get(rowIndex)[columnIndex];
+        Object[] rowData = this.dataOfTable.get(rowIndex);
+        if (columnIndex >= 0 && columnIndex < rowData.length) {
+            return rowData[columnIndex];
+        } else {
+            return null;
+        }
     }
+
 
     // 设置列名
     @Override
@@ -81,7 +87,7 @@ public class MyTableModel extends AbstractTableModel {
             int index = rowIndices[i];
             this.dataOfTable.remove(index);
         }
-        fireTableRowsDeleted(rowIndices[0], rowIndices[rowIndices.length - 1]);
+        fireTableRowsDeleted(rowIndices[rowIndices.length - 1], rowIndices[0]);
     }
 
     // 获取表中数据
@@ -127,5 +133,10 @@ public class MyTableModel extends AbstractTableModel {
     public void addRow(Object[] rowData) {
         this.dataOfTable.add(rowData);
         fireTableRowsInserted(getRowCount() - 1, getRowCount() - 1);
+    }
+    // 更改列名
+    public void setColumnNames(String[] columnNames) {
+        this.columnNames = columnNames;
+        fireTableStructureChanged();
     }
 }

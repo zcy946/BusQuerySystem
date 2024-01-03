@@ -68,12 +68,12 @@ public class MainWindow extends JFrame {
 
                 panelCenter.page0.scrollPane.setBounds(20, 150, panelCenter.getWidth() - 55, panelCenter.getHeight() - 205);
                 panelCenter.page0.searchBar.setBounds(panelCenter.page0.scrollPane.getX(), panelCenter.page0.scrollPane.getY() - 40 - 20, 400, 40);
-                panelCenter.page0.showAllRoutes.setBounds(panelCenter.page0.scrollPane.getX() + panelCenter.page0.scrollPane.getWidth() - 180, panelCenter.page0.scrollPane.getY() - 40 - 20, 180, 40);
+                panelCenter.page0.showAllRoutesInfo.setBounds(panelCenter.page0.scrollPane.getX() + panelCenter.page0.scrollPane.getWidth() - 180, panelCenter.page0.scrollPane.getY() - 40 - 20, 180, 40);
                 panelCenter.page0.searchBtn.setBounds(panelCenter.page0.scrollPane.getX() + panelCenter.page0.scrollPane.getWidth() - 180 - 100 - 8, panelCenter.page0.scrollPane.getY() - 40 - 20, 100, 40);
 
                 panelCenter.page1.scrollPane.setBounds(20, 150, panelCenter.getWidth() - 55, panelCenter.getHeight() - 205);
                 panelCenter.page1.searchBar.setBounds(panelCenter.page0.scrollPane.getX(), panelCenter.page0.scrollPane.getY() - 40 - 20, 400, 40);
-                panelCenter.page1.showAllStations.setBounds(panelCenter.page0.scrollPane.getX() + panelCenter.page0.scrollPane.getWidth() - 180, panelCenter.page0.scrollPane.getY() - 40 - 20, 180, 40);
+                panelCenter.page1.showAllRoutesInfo.setBounds(panelCenter.page0.scrollPane.getX() + panelCenter.page0.scrollPane.getWidth() - 180, panelCenter.page0.scrollPane.getY() - 40 - 20, 180, 40);
                 panelCenter.page1.searchBtn.setBounds(panelCenter.page0.scrollPane.getX() + panelCenter.page0.scrollPane.getWidth() - 180 - 100 - 8, panelCenter.page0.scrollPane.getY() - 40 - 20, 100, 40);
 
                 panelCenter.page3.scrollPane.setBounds(20, 150, panelCenter.getWidth() - 55, panelCenter.getHeight() - 205);
@@ -116,6 +116,11 @@ public class MainWindow extends JFrame {
 //                    System.out.println("Selected: " + panelLeft.navigationBar.getSelectedValue() +
 //                            " [" + panelLeft.navigationBar.getSelectedIndex() + "]");
                     panelCenter.setShowPage(panelLeft.navigationBar.getSelectedIndex());
+                    panelCenter.page0.repaint();
+                    panelCenter.page1.repaint();
+                    panelCenter.page2.repaint();
+                    panelCenter.page3.repaint();
+                    panelCenter.page4.repaint();
                 }
             }
         });
