@@ -3,6 +3,7 @@ package com.swing.zcy.BQS.UI.MainWindow.CenterPages;
 import com.swing.zcy.BQS.BusQuerySystem;
 import com.swing.zcy.BQS.UI.MainWindow.MyColor;
 import com.swing.zcy.BQS.UI.MainWindow.PanelLeft;
+import com.swing.zcy.BQS.Utils.MessageBox;
 
 import javax.swing.*;
 import java.awt.*;
@@ -112,39 +113,49 @@ public class Page4 extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
 //                System.out.println("点击");
-                if (accountField.getText().equals("Enter your account")) {
-                    JOptionPane.showMessageDialog(null, "账号还未填写", "警告", JOptionPane.WARNING_MESSAGE);
+                if (!BusQuerySystem.isLogin) {
+                    if (accountField.getText().equals("Enter your account")) {
+//                    JOptionPane.showMessageDialog(null, "账号还未填写", "警告", JOptionPane.WARNING_MESSAGE);
+                        MessageBox.showMessageDialog("账号还未填写", JOptionPane.WARNING_MESSAGE);
 //                    System.out.println("账号为空");
-                }
-                else {
-                    if (passwordField.getText().equals("Password")) {
-                        JOptionPane.showMessageDialog(null, "密码还未填写", "警告", JOptionPane.WARNING_MESSAGE);
-//                        System.out.println("密码为空");
                     }
                     else {
-                        String inputAccount = accountField.getText().trim();
-                        String inputPassWord = passwordField.getText().trim();
+                        if (passwordField.getText().equals("Password")) {
+//                        JOptionPane.showMessageDialog(null, "密码还未填写", "警告", JOptionPane.WARNING_MESSAGE);
+                            MessageBox.showMessageDialog("密码还未填写", JOptionPane.WARNING_MESSAGE);
+//                        System.out.println("密码为空");
+                        }
+                        else {
+                            String inputAccount = accountField.getText().trim();
+                            String inputPassWord = passwordField.getText().trim();
 //                        System.out.println(inputAccount + "\n" + inputPassWord); // 测试代码
-                        if (inputAccount.equals(BusQuerySystem.ACCOUNT) && inputPassWord.equals(BusQuerySystem.PASSWORD)) {
-                            PanelLeft.itemsInBar.addElement("后台管理");
-                            PanelLeft.headPortrait.setText("\ue519");
-                            PanelLeft.loginIconLabel.setText("\ue7e9");
-                            PanelLeft.loginTextLabel.setText("注 销");
+                            if (inputAccount.equals(BusQuerySystem.ACCOUNT) && inputPassWord.equals(BusQuerySystem.PASSWORD)) {
+                                PanelLeft.itemsInBar.addElement("后台管理");
+                                PanelLeft.headPortrait.setText("\ue519");
+                                PanelLeft.loginIconLabel.setText("\ue7e9");
+                                PanelLeft.loginTextLabel.setText("注 销");
 //                            PanelLeft.loginTextLabel.setText("Log out");
 //                            PanelLeft.loginIconLabel.setForeground(Color.decode(MyColor.fontColor2));
 //                            PanelLeft.loginIconLabel.setFont(PanelLeft.iconFont.deriveFont(25f));
 //                            PanelLeft.loginTextLabel.setForeground(Color.decode(MyColor.fontColor2));
 //                            PanelLeft.loginTextLabel.setFont(new Font("微软雅黑", Font.PLAIN, 16));
 
-                            JOptionPane.showMessageDialog(null, "登录成功", "信息", JOptionPane.INFORMATION_MESSAGE);
-                            BusQuerySystem.isLogin = true;
+//                            JOptionPane.showMessageDialog(null, "登录成功", "信息", JOptionPane.INFORMATION_MESSAGE);
+                                MessageBox.showMessageDialog("登录成功", JOptionPane.INFORMATION_MESSAGE);
+                                BusQuerySystem.isLogin = true;
 //                            System.out.println("登陆成功");
-                        }
-                        else {
-                            JOptionPane.showMessageDialog(null, "账号或者密码错误", "错误", JOptionPane.ERROR_MESSAGE);
+                            }
+                            else {
+//                            JOptionPane.showMessageDialog(null, "账号或者密码错误", "错误", JOptionPane.ERROR_MESSAGE);
+                                MessageBox.showMessageDialog("账号或者密码错误", JOptionPane.ERROR_MESSAGE);
 //                            System.out.println("账号或者密码错误");
+                            }
                         }
                     }
+                }
+                else
+                {
+                    MessageBox.showMessageDialog("您已经处于登陆状态", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

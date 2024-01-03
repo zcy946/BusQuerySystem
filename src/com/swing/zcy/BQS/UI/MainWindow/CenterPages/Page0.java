@@ -15,11 +15,5 @@ public class Page0 extends JPanel {
 //        this.page0.setBackground(Color.decode("#FFEFE6")); // 测试代码
         this.setBackground(Color.decode(MyColor.panelCenterBgColor));
 
-        String[][] testText = {{"文本", "文本"}, {"文本", "文本"}, {"文本", "文本"}, {"文本", "文本"}, {"文本", "文本"}, {"文本", "文本"}, {"文本", "文本"}, {"文本", "文本"}, {"文本", "文本"}, {"文本", "文本"}};
-        String[] testTableHeader = {"列", "列", "列", "列", "列", "列", "列", "列", "列", "列", "列", "列", "列", "列", "列", "列", "列", "列", "列", "列"};
-        DefaultTableModel defaultTableModel = new DefaultTableModel(testText, testTableHeader);
-        this.table = new JTable(defaultTableModel);
-        this.jScrollPane = new JScrollPane(this.table);
-        this.add(this.jScrollPane);
     }
 }

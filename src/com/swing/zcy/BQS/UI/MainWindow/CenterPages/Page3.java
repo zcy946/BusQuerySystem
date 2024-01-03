@@ -6,23 +6,20 @@ import com.swing.zcy.BQS.UI.MainWindow.MyColor;
 import com.swing.zcy.BQS.Utils.MessageBox;
 
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.Arrays;
 
 public class Page3 extends JPanel{
     public JTable table;
     public JScrollPane scrollPane;
-    public JButton updateBtn;
+    public JButton addNewDataBtn;
     public JButton deleteBtn;
     public JButton saveBtn;
+    private MyTableModel myTableModel;
     public Page3() {
 //        this.setBackground(Color.decode("#8CF5FE")); // 测试代码
         this.setBackground(Color.decode(MyColor.panelCenterBgColor));
@@ -33,7 +30,7 @@ public class Page3 extends JPanel{
         this.initTable();
     }
     private void initTable() {
-        MyTableModel myTableModel = new MyTableModel();
+        this.myTableModel = new MyTableModel();
         this.table = new JTable();
         table.setModel(myTableModel);
         // 根据表格内容动态设置列宽
@@ -72,27 +69,21 @@ public class Page3 extends JPanel{
     }
     // 初始化按钮
     private void initButtons() {
-        this.updateBtn = new JButton("刷新");
-        this.updateBtn.setBackground(Color.decode(MyColor.buttonColor));
-        this.updateBtn.setForeground(Color.decode(MyColor.selectedFontColor));
-        this.updateBtn.setFont(new Font("微软雅黑", Font.BOLD, 17));
-        this.updateBtn.addActionListener(new ActionListener() {
+        // 新增按钮
+        this.addNewDataBtn = new JButton("添加");
+        this.addNewDataBtn.setBackground(Color.decode(MyColor.buttonColor));
+        this.addNewDataBtn.setForeground(Color.decode(MyColor.selectedFontColor));
+        this.addNewDataBtn.setFont(new Font("微软雅黑", Font.BOLD, 17));
+        this.addNewDataBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (BusQuerySystem.isDataChanged) {
-                    if (MessageBox.showConfirmDialog("已有数据被更改，刷新后您本次的修改将丢弃，是否确认刷新?")) {
-                        // 刷新表格
-
-                        // 重置数据更改状态
-                        BusQuerySystem.isDataChanged = false;
-                        System.out.println("刷新成功");
-                    } else {
-                        System.out.println("取消刷新");
-                    }
-                }
+                // 添加一行空白
+                myTableModel.addRow(new Object[BusQuerySystem.maxCapacity]);
+                scrollPane.getViewport().setViewPosition(new Point(0, table.getHeight()));
             }
         });
-        this.add(this.updateBtn);
+        this.add(this.addNewDataBtn);
+        // 删除按钮
         this.deleteBtn = new JButton("删除");
         this.deleteBtn.setBackground(Color.decode(MyColor.buttonColor));
         this.deleteBtn.setForeground(Color.decode(MyColor.selectedFontColor));
@@ -115,13 +106,13 @@ public class Page3 extends JPanel{
                     MessageBox.showMessageDialog("请选择相应的单元格");
                 }
                 else {
-                    MyTableModel tempMyTableModel = (MyTableModel)table.getModel(); // 获取数据模
+//                    MyTableModel tempMyTableModel = (MyTableModel)table.getModel(); // 获取数据模
                     StringBuilder selectedNames = new StringBuilder();
                     for (var index : selectedRowIndices) {
-                        selectedNames.append(" ").append(tempMyTableModel.getValueAt(index, 0));
+                        selectedNames.append(" ").append(myTableModel.getValueAt(index, 0));
                     }
-                    if (MessageBox.showConfirmDialog("确认删除线路[" + selectedNames + " ] ?\n若要撤销操纵请点击`刷新`")) {
-                        tempMyTableModel.removeRows(selectedRowIndices); // 先获取数据模型然后删除对应的行
+                    if (MessageBox.showConfirmDialog("确认删除线路[" + selectedNames + " ] ?")) {
+                        myTableModel.removeRows(selectedRowIndices); // 先获取数据模型然后删除对应的行
                         BusQuerySystem.isDataChanged = true;
                         System.out.println("已删除线路[" + selectedNames + " ]");
                     }
@@ -136,6 +127,7 @@ public class Page3 extends JPanel{
             }
         });
         this.add(this.deleteBtn);
+        // 保存按钮
         this.saveBtn = new JButton("保存");
         this.saveBtn.setBackground(Color.decode(MyColor.buttonColor));
         this.saveBtn.setForeground(Color.decode(MyColor.selectedFontColor));

@@ -1,13 +1,11 @@
 package com.swing.zcy.BQS.UI.MainWindow;
 
-import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -71,16 +69,16 @@ public class MainWindow extends JFrame {
                 panelCenter.page0.jScrollPane.setBounds(20, 150, panelCenter.getWidth() - 55, panelCenter.getHeight() - 205);
 
                 panelCenter.page3.scrollPane.setBounds(20, 150, panelCenter.getWidth() - 55, panelCenter.getHeight() - 205);
-                panelCenter.page3.updateBtn.setBounds(panelCenter.page3.scrollPane.getX() + panelCenter.page3.scrollPane.getWidth() - 100 * 3 - 8 * 2, panelCenter.page3.scrollPane.getY() - 60, 100, 38);
+                panelCenter.page3.addNewDataBtn.setBounds(panelCenter.page3.scrollPane.getX() + panelCenter.page3.scrollPane.getWidth() - 100 * 3 - 8 * 2, panelCenter.page3.scrollPane.getY() - 60, 100, 38);
                 panelCenter.page3.deleteBtn.setBounds(panelCenter.page3.scrollPane.getX() + panelCenter.page3.scrollPane.getWidth() - 100 * 2 - 8, panelCenter.page3.scrollPane.getY() - 60, 100, 38);
                 panelCenter.page3.saveBtn.setBounds(panelCenter.page3.scrollPane.getX() + panelCenter.page3.scrollPane.getWidth() - 100, panelCenter.page3.scrollPane.getY() - 60, 100, 38);
 
-                panelCenter.page4.accountField.setBounds(panelCenter.getWidth() / 6, (int)(panelLeft.getWidth() * 1.7), 230, 35);
+                panelCenter.page4.accountField.setBounds(panelCenter.getWidth() / 9, (int)(panelLeft.getWidth() * 1.7), 230, 35);
                 panelCenter.page4.passwordField.setBounds(panelCenter.page4.accountField.getX(), panelCenter.page4.accountField.getY() + 75, 230, 35);
                 panelCenter.page4.accountText.setBounds(panelCenter.page4.accountField.getX(), panelCenter.page4.accountField.getY() - 60, 100, 100);
                 panelCenter.page4.passWordText.setBounds(panelCenter.page4.accountField.getX(), panelCenter.page4.passwordField.getY() - 60, 100, 100);
                 panelCenter.page4.loginBtn.setBounds(panelCenter.page4.accountField.getX(), panelCenter.page4.passwordField.getY() + 110, 230, 40);
-                panelCenter.page4.imagePanel.setBounds(panelCenter.page4.accountField.getX() + panelCenter.page4.accountField.getWidth() + 20, panelLeft.getWidth() / 2, panelCenter.getWidth() / 2, panelCenter.getWidth() / 2);
+                panelCenter.page4.imagePanel.setBounds(panelCenter.page4.accountField.getX() + panelCenter.page4.accountField.getWidth() + panelCenter.getWidth() / 15, panelCenter.getWidth() / 15, panelCenter.getHeight() - 2 * panelCenter.getWidth() / 10, panelCenter.getHeight() - 2 * panelCenter.getWidth() / 10);
 
                 panelCenter.page0.repaint();
                 panelCenter.page1.repaint();
