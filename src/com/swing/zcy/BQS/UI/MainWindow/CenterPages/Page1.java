@@ -38,7 +38,10 @@ public class Page1 extends JPanel {
     }
 
     private void initTable() {
-        this.myTableModel = new MyTableModel(false);
+        String[] tempColumnNames = {"                                  提示                                  "};
+        List<Object[]> tempDataOfTable = new ArrayList<>();
+        tempDataOfTable.add(new Object[]{"输入 [站名] 后 按下 `回车` 或 点击`搜索` 进行搜索"});
+        this.myTableModel = new MyTableModel(tempColumnNames, tempDataOfTable, tempColumnNames.length, false);
         this.table = new JTable();
         table.setModel(myTableModel);
         // 不让表格自动设置宽度
@@ -106,30 +109,32 @@ public class Page1 extends JPanel {
             }
         });
         this.searchBar.add(this.searchField);
-        // 按钮-显示所有站点信息
-        this.showAllRoutesInfo = new JButton("显示所有线路信息");
+        // 按钮-查看线路信息
+        this.showAllRoutesInfo = new JButton("查看线路信息");
         this.showAllRoutesInfo.setBackground(Color.decode(MyColor.buttonColor));
         this.showAllRoutesInfo.setForeground(Color.decode(MyColor.selectedFontColor));
         this.showAllRoutesInfo.setFont(new Font("微软雅黑", Font.BOLD, 17));
-        this.showAllRoutesInfo.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-//                System.out.println("点击");
-                // 清表
-                myTableModel.clearTableData();
-                // 获取结果
-                boolean isContains = false;
-                int count = 0;
-                for (var bus : BusQuerySystem.buses) {
-                    Object[] dataOfTable = bus.getAllInformation();
-                    myTableModel.addRow(dataOfTable);
-                    count++;
-                }
-                // 设置单元格宽度
-                setTableColumnWidth();
-                System.out.println("已显示所有线路信息，共" + count + "条");
-            }
-        });
+        // 监听器已迁移到MainWindow
+//        this.showAllRoutesInfo.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+////                System.out.println("点击");
+//                // 清表
+//                myTableModel.clearTableData();
+//                // 获取结果
+//                boolean isContains = false;
+//                int count = 0;
+//                for (var bus : BusQuerySystem.buses) {
+//                    Object[] dataOfTable = bus.getAllInformation();
+//                    myTableModel.addRow(dataOfTable);
+//                    count++;
+//                }
+//                // 设置单元格宽度
+//                setTableColumnWidth();
+//                System.out.println("已显示所有线路信息，共" + count + "条");
+//
+//            }
+//        });
         this.add(showAllRoutesInfo);
         // 按钮-查找
         this.searchBtn = new JButton("搜索");
