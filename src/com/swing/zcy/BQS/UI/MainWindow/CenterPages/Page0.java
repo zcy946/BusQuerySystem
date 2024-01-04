@@ -73,7 +73,7 @@ public class Page0 extends JPanel {
             @Override
             public void focusGained(FocusEvent e) {
 //                System.out.println("in");
-                if (searchField.getText().equals("Enter the route name")) {
+                if (searchField.getText().trim().equals("Enter the route name")) {
                     searchField.setText("");
                     searchField.setForeground(Color.decode(MyColor.fontColor1));
                     searchField.setFont(new Font("微软雅黑", Font.PLAIN, 15));
@@ -84,7 +84,7 @@ public class Page0 extends JPanel {
             @Override
             public void focusLost(FocusEvent e) {
 //                System.out.println("out");
-                if (searchField.getText().equals("Enter the route name") || searchField.getText().isEmpty()) {
+                if (searchField.getText().trim().equals("Enter the route name") || searchField.getText().trim().isEmpty()) {
                     searchField.setText("Enter the route name");
                     searchField.setForeground(Color.decode(MyColor.fontAnnotationColor2));
                     searchField.setFont(new Font("微软雅黑", Font.PLAIN, 15));
@@ -171,31 +171,35 @@ public class Page0 extends JPanel {
     }
     // 搜索功能
     private void search() {
-        String searchedRouteId = searchField.getText();
+        String searchedRouteId = searchField.getText().trim();
         if (searchedRouteId.isEmpty() || searchedRouteId.equals("Enter the route name")) {
             MessageBox.showMessageDialog("请输入要检索的内容", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            System.out.println("检索线路: " + searchedRouteId);
-            // 清表
-            myTableModel.clearTableData();
-            // 获取结果
-            boolean isContains = false;
-            int count = 0;
-            for (var bus : BusQuerySystem.buses) {
-                if (bus.getRouteID().contains(searchedRouteId)) {
-                    isContains = true;
-                    Object[] dataOfTable = bus.getAllInformation();
-                    myTableModel.addRow(dataOfTable);
-                    count++;
+            if (!BusQuerySystem.buses.isEmpty()) {System.out.println("检索线路: " + searchedRouteId);
+                // 清表
+                myTableModel.clearTableData();
+                // 获取结果
+                boolean isContains = false;
+                int count = 0;
+                for (var bus : BusQuerySystem.buses) {
+                    if (bus.getRouteID().contains(searchedRouteId)) {
+                        isContains = true;
+                        Object[] dataOfTable = bus.getAllInformation();
+                        myTableModel.addRow(dataOfTable);
+                        count++;
 //                            System.out.println("结果: " + Arrays.toString(dataOfTable));
+                    }
                 }
+                System.out.println("查询到" + count + "条信息");
+                if (!isContains) {
+                    MessageBox.showMessageDialog("未查询到线路名为 `" + searchedRouteId + "` 的相关信息");
+                }
+                // 设置单元格宽度
+                setTableColumnWidth();
             }
-            System.out.println("查询到" + count + "条信息");
-            if (!isContains) {
-                MessageBox.showMessageDialog("未查询到线路名为 `" + searchedRouteId + "` 的相关信息");
+            else {
+                MessageBox.showMessageDialog("请检查数据源是否配置成功");
             }
-            // 设置单元格宽度
-            setTableColumnWidth();
         }
     }
 }

@@ -40,7 +40,7 @@ public class Page1 extends JPanel {
     private void initTable() {
         String[] tempColumnNames = {"                                  提示                                  "};
         List<Object[]> tempDataOfTable = new ArrayList<>();
-        tempDataOfTable.add(new Object[]{"输入 [站名] 后 按下 `回车` 或 点击`搜索` 进行搜索"});
+        tempDataOfTable.add(new Object[]{"输入 [站名] 后 按下 `回车` 或 点击 `搜索` 进行检索"});
         this.myTableModel = new MyTableModel(tempColumnNames, tempDataOfTable, tempColumnNames.length, false);
         this.table = new JTable();
         table.setModel(myTableModel);
@@ -81,7 +81,7 @@ public class Page1 extends JPanel {
             @Override
             public void focusGained(FocusEvent e) {
 //                System.out.println("in");
-                if (searchField.getText().equals("Enter the station name")) {
+                if (searchField.getText().trim().equals("Enter the station name")) {
                     searchField.setText("");
                     searchField.setForeground(Color.decode(MyColor.fontColor1));
                     searchField.setFont(new Font("微软雅黑", Font.PLAIN, 15));
@@ -92,7 +92,7 @@ public class Page1 extends JPanel {
             @Override
             public void focusLost(FocusEvent e) {
 //                System.out.println("out");
-                if (searchField.getText().equals("Enter the station name") || searchField.getText().isEmpty()) {
+                if (searchField.getText().trim().equals("Enter the station name") || searchField.getText().trim().isEmpty()) {
                     searchField.setText("Enter the station name");
                     searchField.setForeground(Color.decode(MyColor.fontAnnotationColor2));
                     searchField.setFont(new Font("微软雅黑", Font.PLAIN, 15));
@@ -182,7 +182,7 @@ public class Page1 extends JPanel {
     // 搜索功能
     // 1.0 废案不适用
 //    private void search() {
-//        String searchedStationName = searchField.getText();
+//        String searchedStationName = searchField.getText().trim();
 //        if (searchedStationName.isEmpty() || searchedStationName.equals("Enter the station name")) {
 //            MessageBox.showMessageDialog("请输入要检索的内容", JOptionPane.INFORMATION_MESSAGE);
 //        } else {
@@ -226,7 +226,7 @@ public class Page1 extends JPanel {
 //    }
     // 2.0 废案 重复显示
 //    private void search1() {
-//        String searchedStationName = searchField.getText();
+//        String searchedStationName = searchField.getText().trim();
 //        if (searchedStationName.isEmpty() || searchedStationName.equals("Enter the station name")) {
 //            MessageBox.showMessageDialog("请输入要检索的内容", JOptionPane.INFORMATION_MESSAGE);
 //        } else {
@@ -267,55 +267,60 @@ public class Page1 extends JPanel {
 //        }
 //    }
     private void search2() {
-        String searchedStationName = searchField.getText();
+        String searchedStationName = searchField.getText().trim();
         if (searchedStationName.isEmpty() || searchedStationName.equals("Enter the station name")) {
             MessageBox.showMessageDialog("请输入要检索的内容", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            System.out.println("检索站点: " + searchedStationName);
-            // 清表
-            myTableModel.clearTableData();
-            // 重设列名
-            String[] columnNames = new String[BusQuerySystem.buses.size() / 2]; // 最大容量直接设置为路线总数(每个路线都有来回两个)
-            columnNames[0] = "站点名";
-            for (int i = 1; i < columnNames.length; i++) {
-                columnNames[i] = "线路" + i;
-            }
-            myTableModel.setColumnNames(columnNames);
-            // 获取结果
-            boolean isContains = false;
-            int stationCount = 0;
-            int routeCount = 0;
-            Map<String, List<String>> stationRoutesMap = new HashMap<>(); // 用map更简单过滤重复
-            for (var bus : BusQuerySystem.buses) {
-                String[] stations = bus.getStations();
-                for (int i = 0; i < stations.length; i++) {
-                    if (stations[i].contains(searchedStationName)) {
-                        isContains = true;
-                        String stationName = stations[i];
-                        String routeName = bus.getRouteID();
-                        // 查看是否已存该键值对，不存在就创建，存在直接添加
-                        if (!stationRoutesMap.containsKey(stationName)) {
-                            stationRoutesMap.put(stationName, new ArrayList<>());
-                            stationRoutesMap.get(stationName).add(stationName); // 把值的第一个位置放置站点名，用于显示数据
-                            stationCount++;
+            if (!BusQuerySystem.buses.isEmpty()) {
+                System.out.println("检索站点: " + searchedStationName);
+                // 清表
+                myTableModel.clearTableData();
+                // 重设列名
+                String[] columnNames = new String[BusQuerySystem.buses.size() / 2]; // 最大容量直接设置为路线总数(每个路线都有来回两个)
+                columnNames[0] = "站点名";
+                for (int i = 1; i < columnNames.length; i++) {
+                    columnNames[i] = "线路" + i;
+                }
+                myTableModel.setColumnNames(columnNames);
+                // 获取结果
+                boolean isContains = false;
+                int stationCount = 0;
+                int routeCount = 0;
+                Map<String, List<String>> stationRoutesMap = new HashMap<>(); // 用map更简单过滤重复
+                for (var bus : BusQuerySystem.buses) {
+                    String[] stations = bus.getStations();
+                    for (int i = 0; i < stations.length; i++) {
+                        if (stations[i].contains(searchedStationName)) {
+                            isContains = true;
+                            String stationName = stations[i];
+                            String routeName = bus.getRouteID();
+                            // 查看是否已存该键值对，不存在就创建，存在直接添加
+                            if (!stationRoutesMap.containsKey(stationName)) {
+                                stationRoutesMap.put(stationName, new ArrayList<>());
+                                stationRoutesMap.get(stationName).add(stationName); // 把值的第一个位置放置站点名，用于显示数据
+                                stationCount++;
+                            }
+                            stationRoutesMap.get(stationName).add(routeName); // 将路线名添加到站点对应的列表中
+                            routeCount++;
                         }
-                        stationRoutesMap.get(stationName).add(routeName); // 将路线名添加到站点对应的列表中
-                        routeCount++;
                     }
                 }
-            }
-            // 获取stationRoutesMap键值对的值部分
-            for (List<String> routeList : stationRoutesMap.values()) {
-                myTableModel.addRow(routeList.toArray(new Object[0])); // 写入表格
-            }
-            myTableModel.setColumnNames(columnNames);
+                // 获取stationRoutesMap键值对的值部分
+                for (List<String> routeList : stationRoutesMap.values()) {
+                    myTableModel.addRow(routeList.toArray(new Object[0])); // 写入表格
+                }
+                myTableModel.setColumnNames(columnNames);
 
-            System.out.println("查询到" + stationCount + "条站点信息，" + routeCount + "条线路信息");
-            if (!isContains) {
-                MessageBox.showMessageDialog("未查询到含有站点为 `" + searchedStationName + "` 的相关线路信息");
+                System.out.println("查询到" + stationCount + "条站点信息，" + routeCount + "条线路信息");
+                if (!isContains) {
+                    MessageBox.showMessageDialog("未查询到含有站点为 `" + searchedStationName + "` 的相关线路信息");
+                }
+                // 设置单元格宽度
+                setTableColumnWidth();
             }
-            // 设置单元格宽度
-            setTableColumnWidth();
+            else {
+                MessageBox.showMessageDialog("请检查数据源是否配置成功");
+            }
         }
     }
 

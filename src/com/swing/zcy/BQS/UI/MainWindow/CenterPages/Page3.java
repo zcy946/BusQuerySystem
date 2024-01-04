@@ -142,7 +142,10 @@ public class Page3 extends JPanel{
                         DatarPocessing.saveDatatoFile(BusQuerySystem.data); // 同步更新文件
                         // 同步更新数据库
                         // 🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩
-                        System.out.println("保存成功");
+                        System.out.println("数据源更新成功");
+                        // 刷新Buses
+                        BusQuerySystem.reloadDataFromFile();
+                        System.out.println("Buses对象更新成功");
                         // 刷新数据状态
                         BusQuerySystem.isDataChanged = false;
                     } else {

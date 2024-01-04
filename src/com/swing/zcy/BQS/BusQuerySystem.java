@@ -1,11 +1,13 @@
 package com.swing.zcy.BQS;
 
 import com.swing.zcy.BQS.UI.MainWindow.MainWindow;
+import com.swing.zcy.BQS.Utils.MessageBox;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class BusQuerySystem {
@@ -34,11 +36,15 @@ public class BusQuerySystem {
     // 读取数据[默认从文件读取]
     private void loadData() {
         this.dataProcessing = new DatarPocessing();
-
-        data = dataProcessing.loadDataFromFile();
-        maxCapacity = dataProcessing.getMaxColumn();
-        System.out.println("数据初始化完毕");
+        data = DatarPocessing.loadDataFromFile();
+        if (data.isEmpty()) {
+            MessageBox.showMessageDialog("未检测到数据源");
+        }
+        else {
+            maxCapacity = dataProcessing.getMaxColumn();
+            System.out.println("数据初始化完毕");
 //        dataProcessing.showData(); // 测试代码 显示数据
+        }
     }
     // 读取账号密码文档
     private void loadAccounts() {
@@ -60,8 +66,8 @@ public class BusQuerySystem {
         System.out.println("账号初始化完毕");
     }
     // 初始化每一个bus对象
-    private void intiBuses() {
-        this.buses = new ArrayList<>();
+    private static void intiBuses() {
+        buses = new ArrayList<>();
         for (int i = 0; i < data.size(); i++) {
             Bus bus = new Bus();
             Object[] object = data.get(i);
@@ -83,16 +89,26 @@ public class BusQuerySystem {
                 stations[j - 5] = String.valueOf(object[j]);
             }
             bus.setStations(stations);
-            this.buses.add(bus);
+            buses.add(bus);
         }
         System.out.println("buses初始化完毕");
 
+    }
+    // 返回包含站点的所有路线
+    public static List<Bus> getAllContainStationRoutes(String searchedStation) {
+        List<Bus> result = new ArrayList<>();
+        for (Bus bus : buses) {
+            if (Arrays.stream(bus.getStations()).toList().contains(searchedStation)) {
+                result.add(bus);
+            }
+        }
+        return result;
     }
 
     // 更新源数据
     public void update() {
         // 写入文件中
-        this.dataProcessing.saveDatatoFile(data);
+        DatarPocessing.saveDatatoFile(data);
 
         // 写入数据库中
     }
@@ -101,6 +117,7 @@ public class BusQuerySystem {
         List<Object[]> data = DatarPocessing.loadDataFromFile();
         if (data != null) {
             BusQuerySystem.data = data;
+            intiBuses();
         } else {
             System.out.println("文件读取失败");
         }
