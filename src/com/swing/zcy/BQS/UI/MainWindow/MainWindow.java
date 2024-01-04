@@ -76,6 +76,12 @@ public class MainWindow extends JFrame {
                 panelCenter.page1.showAllRoutesInfo.setBounds(panelCenter.page0.scrollPane.getX() + panelCenter.page0.scrollPane.getWidth() - 180, panelCenter.page0.scrollPane.getY() - 40 - 20, 180, 40);
                 panelCenter.page1.searchBtn.setBounds(panelCenter.page0.scrollPane.getX() + panelCenter.page0.scrollPane.getWidth() - 180 - 100 - 8, panelCenter.page0.scrollPane.getY() - 40 - 20, 100, 40);
 
+                panelCenter.page2.scrollPane.setBounds(20, 150, panelCenter.getWidth() - 55, panelCenter.getHeight() - 205);
+                panelCenter.page2.searchBar.setBounds(panelCenter.page0.scrollPane.getX(), panelCenter.page0.scrollPane.getY() - 40 - 20, 300, 40);
+                panelCenter.page2.exchangeLabel.setBounds(panelCenter.page2.searchBar.getX() + panelCenter.page2.searchBar.getWidth() + 8, panelCenter.page2.searchBar.getY(), 40, 40);
+                panelCenter.page2.searchBtn.setBounds(panelCenter.page0.scrollPane.getX() + panelCenter.page0.scrollPane.getWidth() - 180 - 100 - 8, panelCenter.page0.scrollPane.getY() - 40 - 20, 100, 40);
+                panelCenter.page2.searchBar2.setBounds(panelCenter.page2.exchangeLabel.getX() + panelCenter.page2.exchangeLabel.getWidth() + 8, panelCenter.page0.scrollPane.getY() - 40 - 20, 300, 40);
+
                 panelCenter.page3.scrollPane.setBounds(20, 150, panelCenter.getWidth() - 55, panelCenter.getHeight() - 205);
                 panelCenter.page3.addNewDataBtn.setBounds(panelCenter.page3.scrollPane.getX() + panelCenter.page3.scrollPane.getWidth() - 100 * 3 - 8 * 2, panelCenter.page3.scrollPane.getY() - 60, 100, 38);
                 panelCenter.page3.deleteBtn.setBounds(panelCenter.page3.scrollPane.getX() + panelCenter.page3.scrollPane.getWidth() - 100 * 2 - 8, panelCenter.page3.scrollPane.getY() - 60, 100, 38);
@@ -116,11 +122,6 @@ public class MainWindow extends JFrame {
 //                    System.out.println("Selected: " + panelLeft.navigationBar.getSelectedValue() +
 //                            " [" + panelLeft.navigationBar.getSelectedIndex() + "]");
                     panelCenter.setShowPage(panelLeft.navigationBar.getSelectedIndex());
-                    panelCenter.page0.repaint();
-                    panelCenter.page1.repaint();
-                    panelCenter.page2.repaint();
-                    panelCenter.page3.repaint();
-                    panelCenter.page4.repaint();
                 }
             }
         });

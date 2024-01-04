@@ -14,4 +14,6 @@ public class MyColor {
     public static String panelLeftBgColor = "#F1F1FB";
     public static String panelCenterBgColor = "#FEFEFF";
     public static String tableCellBgColor = "#F1F1FB";
+    public static String pointStart = "#0dde76";
+    public static String pointEnd = "#fe1a19";
 }

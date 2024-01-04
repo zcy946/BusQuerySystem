@@ -1,6 +1,6 @@
 @font-face {
   font-family: "iconfont"; /* Project id  */
-  src: url('iconfont.ttf?t=1704265519634') format('truetype');
+  src: url('iconfont.ttf?t=1704349317599') format('truetype');
 }
 
 .iconfont {
@@ -13,6 +13,14 @@
 
 .icon-youkexuzhi:before {
   content: "\e6f3";
+}
+
+.icon-dian:before {
+  content: "\e7a5";
+}
+
+.icon-zhihuan:before {
+  content: "\ec8d";
 }
 
 .icon-guanliyuan:before {

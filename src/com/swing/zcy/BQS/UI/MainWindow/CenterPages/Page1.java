@@ -63,6 +63,7 @@ public class Page1 extends JPanel {
         this.searchIcon.setFont(PanelLeft.iconFont.deriveFont(30f));
         this.searchIcon.setForeground(Color.decode(MyColor.fontColor1));
         this.searchIcon.setBounds(5, 5, 30, 30);
+        this.searchIcon.setHorizontalAlignment(SwingConstants.CENTER);
         this.searchBar.add(this.searchIcon);
 
         this.searchField = new JTextField();
