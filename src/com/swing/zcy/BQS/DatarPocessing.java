@@ -130,6 +130,12 @@ public class DatarPocessing {
             throw new RuntimeException(e);
         }
     }
+
+    // 从数据库获取数据
+    public static List<Object[]> loadDataFromDataBase() {
+        List<Object[]> data = new ArrayList<>();
+        return data;
+    }
     // 提取字符串中的数字
     private static double extractNumber(String input) {
         // 使用正则表达式匹配数字部分

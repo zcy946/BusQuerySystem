@@ -1,0 +1,5 @@
+用户名: root	
+密码: abcd1234
+地址: localhost
+端口号: 3306
+数据库名称: BusQuerySystem

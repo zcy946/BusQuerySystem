@@ -1,5 +1,6 @@
 package com.swing.zcy.BQS;
 
+import com.swing.zcy.BQS.MyDatabase.MyDatabase;
 import com.swing.zcy.BQS.UI.MainWindow.MainWindow;
 import com.swing.zcy.BQS.Utils.MessageBox;
 
@@ -13,6 +14,7 @@ import java.util.List;
 public class BusQuerySystem {
     public static String accountFilePath = "res/accounts.txt";
     public static String dataFilePath = "res/gongjiao.txt";
+    public static String userConfigFilePath = "res/dataBaseConfig.txt";
     public static String ACCOUNT;
     public static String PASSWORD;
     public static boolean isLogin;
@@ -21,17 +23,21 @@ public class BusQuerySystem {
     public static List<Object[]> data;
     public static int maxCapacity;
     public static List<Bus> buses;
+    public static boolean haveTable;
     public BusQuerySystem() {
         // 初始化数据[默认从文件读取]
         this.loadData();
         // 读取账号密码文档
         this.loadAccounts();
+        // 读取数据库配置文档
+        this.initDatabaseConfig();
         // 初始化buses
         this.intiBuses();
         //加载界面
         MainWindow mainWindow = new MainWindow();
         mainWindow.setVisible(true);
-
+        // 获取数据库表的状态
+        MyDatabase.getTableState();
     }
     // 读取数据[默认从文件读取]
     private void loadData() {
@@ -65,6 +71,33 @@ public class BusQuerySystem {
         isLogin = false;
         System.out.println("账号初始化完毕");
     }
+    // 读取数据库配置文件
+    private void initDatabaseConfig() {
+        List<String> userConfig;
+        List<String> dataBaseConfig = new ArrayList<>();
+        try {
+            userConfig = Files.readAllLines(Paths.get(userConfigFilePath));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        for (int i = 0; i < userConfig.size(); i++) {
+            dataBaseConfig.add(userConfig.get(i).split(":")[1].trim());
+        }
+        if(dataBaseConfig.isEmpty()) {
+            MessageBox.showMessageDialog("未检测到数据库配置信息");
+            System.exit(-1);
+        }
+        else {
+            MyDatabase.url = "jdbc:mysql://" + dataBaseConfig.get(2) + ":" + dataBaseConfig.get(3) + "/"+ dataBaseConfig.get(4);
+            MyDatabase.username = dataBaseConfig.get(0);
+            MyDatabase.password = dataBaseConfig.get(1);
+            System.out.println("数据库配置信息加载完毕");
+        }
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }}
     // 初始化每一个bus对象
     private static void intiBuses() {
         buses = new ArrayList<>();

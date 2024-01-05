@@ -2,6 +2,7 @@ package com.swing.zcy.BQS.UI.MainWindow.CenterPages;
 
 import com.swing.zcy.BQS.BusQuerySystem;
 import com.swing.zcy.BQS.DatarPocessing;
+import com.swing.zcy.BQS.MyDatabase.MyDatabase;
 import com.swing.zcy.BQS.Utils.MyColor;
 import com.swing.zcy.BQS.Utils.MessageBox;
 
@@ -19,13 +20,14 @@ public class Page3 extends JPanel{
     public JButton addNewDataBtn;
     public JButton deleteBtn;
     public JButton saveBtn;
+    public JButton createTableBtn;
     private MyTableModel myTableModel;
     public Page3() {
 //        this.setBackground(Color.decode("#8CF5FE")); // 测试代码
         this.setBackground(Color.decode(MyColor.panelCenterBgColor));
         this.setLayout(null);
         // 初始化按钮
-        this.initButtons();
+        this.initWidgets();
         // 初始化表格
         this.initTable();
     }
@@ -68,7 +70,24 @@ public class Page3 extends JPanel{
         this.add(this.scrollPane);
     }
     // 初始化按钮
-    private void initButtons() {
+    private void initWidgets() {
+        // 创建表按钮
+        this.createTableBtn = new JButton("创建表");
+        this.createTableBtn.setBackground(Color.decode(MyColor.buttonColor));
+        this.createTableBtn.setForeground(Color.decode(MyColor.selectedFontColor));
+        this.createTableBtn.setFont(new Font("微软雅黑", Font.BOLD, 17));
+        this.createTableBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (BusQuerySystem.haveTable) {
+                    MessageBox.showMessageDialog("已存在表，无需重复创建", JOptionPane.INFORMATION_MESSAGE);
+                }
+                else {
+                    MyDatabase.cteateTable();
+                }
+            }
+        });
+        this.add(this.createTableBtn);
         // 新增按钮
         this.addNewDataBtn = new JButton("添加");
         this.addNewDataBtn.setBackground(Color.decode(MyColor.buttonColor));
