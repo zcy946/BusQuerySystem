@@ -38,7 +38,6 @@ public class MainWindow extends JFrame {
             throw new RuntimeException(e);
         }
         this.setIconImage(iconImage); // 设置窗口图标
-
         // 主面板
         this.mainPanel = new JPanel();
         this.mainPanel.setBackground(Color.decode("#fefeff"));
