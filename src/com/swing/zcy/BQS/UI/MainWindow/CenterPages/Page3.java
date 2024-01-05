@@ -72,18 +72,22 @@ public class Page3 extends JPanel{
     // 初始化按钮
     private void initWidgets() {
         // 创建表按钮
-        this.createTableBtn = new JButton("创建表");
+        this.createTableBtn = new JButton("创建表到数据库");
         this.createTableBtn.setBackground(Color.decode(MyColor.buttonColor));
         this.createTableBtn.setForeground(Color.decode(MyColor.selectedFontColor));
         this.createTableBtn.setFont(new Font("微软雅黑", Font.BOLD, 17));
         this.createTableBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // 获取数据库表的状态
+                MyDatabase.getTableState();
                 if (BusQuerySystem.haveTable) {
                     MessageBox.showMessageDialog("已存在表，无需重复创建", JOptionPane.INFORMATION_MESSAGE);
                 }
                 else {
                     MyDatabase.cteateTable();
+                    BusQuerySystem.haveTable = true;
+                    MessageBox.showMessageDialog("创建成功，表名为: buses", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         });
@@ -158,13 +162,22 @@ public class Page3 extends JPanel{
                     if (MessageBox.showConfirmDialog("确认之后将同步更新文件或数据库，是否确认保存?")) {
                         MyTableModel tempMyTableModel = (MyTableModel)table.getModel(); // 获取数据模
                         BusQuerySystem.data = tempMyTableModel.getAllData(); // 更新BusQuerySystem.data中的数据
-                        DatarPocessing.saveDatatoFile(BusQuerySystem.data); // 同步更新文件
-                        // 同步更新数据库
-                        // 🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩
-                        System.out.println("数据源更新成功");
-                        // 刷新Buses
-                        BusQuerySystem.reloadDataFromFile();
-                        System.out.println("Buses对象更新成功");
+                        if (BusQuerySystem.dataSources == 2) {
+                            // 同步更新数据库
+                            DatarPocessing.saveDatatoDatabase(BusQuerySystem.data);
+                            System.out.println("数据源更新成功");
+                            // 刷新Buses
+                            BusQuerySystem.reloadDataFromDatabase();
+                            System.out.println("Buses对象更新成功");
+                        }
+                        else {
+                            // 同步更新文件
+                            DatarPocessing.saveDatatoFile(BusQuerySystem.data);
+                            System.out.println("数据源更新成功");
+                            // 刷新Buses
+                            BusQuerySystem.reloadDataFromFile();
+                            System.out.println("Buses对象更新成功");
+                        }
                         // 刷新数据状态
                         BusQuerySystem.isDataChanged = false;
                     } else {

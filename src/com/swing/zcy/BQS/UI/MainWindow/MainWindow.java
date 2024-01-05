@@ -87,7 +87,7 @@ public class MainWindow extends JFrame {
                 panelCenter.page3.addNewDataBtn.setBounds(panelCenter.page3.scrollPane.getX() + panelCenter.page3.scrollPane.getWidth() - 100 * 3 - 8 * 2, panelCenter.page3.scrollPane.getY() - 60, 100, 38);
                 panelCenter.page3.deleteBtn.setBounds(panelCenter.page3.scrollPane.getX() + panelCenter.page3.scrollPane.getWidth() - 100 * 2 - 8, panelCenter.page3.scrollPane.getY() - 60, 100, 38);
                 panelCenter.page3.saveBtn.setBounds(panelCenter.page3.scrollPane.getX() + panelCenter.page3.scrollPane.getWidth() - 100, panelCenter.page3.scrollPane.getY() - 60, 100, 38);
-                panelCenter.page3.createTableBtn.setBounds(panelCenter.page0.scrollPane.getX(), panelCenter.page0.scrollPane.getY() - 40 - 20, 100, 38);
+                panelCenter.page3.createTableBtn.setBounds(panelCenter.page0.scrollPane.getX(), panelCenter.page0.scrollPane.getY() - 40 - 20, 160, 38);
 
                 panelCenter.page4.accountField.setBounds(panelCenter.getWidth() / 9, (int)(panelLeft.getWidth() * 1.7), 230, 35);
                 panelCenter.page4.passwordField.setBounds(panelCenter.page4.accountField.getX(), panelCenter.page4.accountField.getY() + 75, 230, 35);

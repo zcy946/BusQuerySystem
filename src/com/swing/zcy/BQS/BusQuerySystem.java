@@ -5,6 +5,7 @@ import com.swing.zcy.BQS.UI.MainWindow.MainWindow;
 import com.swing.zcy.BQS.Utils.MessageBox;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class BusQuerySystem {
+    public static String settingConfigPath = "res/setting.txt";
     public static String accountFilePath = "res/accounts.txt";
     public static String dataFilePath = "res/gongjiao.txt";
     public static String userConfigFilePath = "res/dataBaseConfig.txt";
@@ -24,32 +26,48 @@ public class BusQuerySystem {
     public static int maxCapacity;
     public static List<Bus> buses;
     public static boolean haveTable;
+    public static int dataSources;
     public BusQuerySystem() {
+        // 读取数据库配置文档
+        this.initDatabaseConfig();
+        // 初始化设置配置
+        this.initSettingConfig();
         // 初始化数据[默认从文件读取]
         this.loadData();
         // 读取账号密码文档
         this.loadAccounts();
-        // 读取数据库配置文档
-        this.initDatabaseConfig();
         // 初始化buses
-        this.intiBuses();
+        intiBuses();
         //加载界面
         MainWindow mainWindow = new MainWindow();
         mainWindow.setVisible(true);
-        // 获取数据库表的状态
-        MyDatabase.getTableState();
+    }
+    // 读取配置文件
+    private void initSettingConfig() {
+        List<String> preAccounts;
+        try {
+            preAccounts = Files.readAllLines(Paths.get(settingConfigPath));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        dataSources = Integer.parseInt(preAccounts.get(0).split(":")[1].trim());
     }
     // 读取数据[默认从文件读取]
     private void loadData() {
         this.dataProcessing = new DatarPocessing();
-        data = DatarPocessing.loadDataFromFile();
+        if (BusQuerySystem.dataSources == 2) {
+            data = DatarPocessing.loadDataFromDataBase();
+        }
+        else {
+            data = DatarPocessing.loadDataFromFile();
+        }
         if (data.isEmpty()) {
             MessageBox.showMessageDialog("未检测到数据源");
         }
         else {
             maxCapacity = dataProcessing.getMaxColumn();
             System.out.println("数据初始化完毕");
-//        dataProcessing.showData(); // 测试代码 显示数据
+//            dataProcessing.showData(); // 测试代码 显示数据
         }
     }
     // 读取账号密码文档
@@ -78,6 +96,7 @@ public class BusQuerySystem {
         try {
             userConfig = Files.readAllLines(Paths.get(userConfigFilePath));
         } catch (IOException e) {
+            MessageBox.showMessageDialog("数据库配置文件有误");
             throw new RuntimeException(e);
         }
         for (int i = 0; i < userConfig.size(); i++) {
@@ -112,7 +131,13 @@ public class BusQuerySystem {
 //            System.out.println("No." + (i + 1) + ": " + object[5]); // 测试代码
             // 💖 id 💖 票价 💖 时间1 💖 时间2 💖 有效卡 💖 站点s
             bus.setRouteID(String.valueOf(object[0])); // 💖 id
-            bus.setPrice((Double) object[1]); // 💖 票价
+//            bus.setPrice((Double) object[1]); // 💖 票价
+            if (object[1] instanceof BigDecimal) {
+                bus.setPrice(((BigDecimal) object[1]).doubleValue()); // 数据库重用的是decimal类型的数据
+            }
+            else {
+                bus.setPrice((Double) object[1]);
+            }
             bus.setServiceTime1(String.valueOf(object[2]));// 💖 时间1
             bus.setServiceTime2(String.valueOf(object[3]));// 💖 时间2
             bus.setAvailableCards(String.valueOf(object[4]));// 💖 有效卡
@@ -138,13 +163,6 @@ public class BusQuerySystem {
         return result;
     }
 
-    // 更新源数据
-    public void update() {
-        // 写入文件中
-        DatarPocessing.saveDatatoFile(data);
-
-        // 写入数据库中
-    }
     public static void reloadDataFromFile() {
         // 从文件中重新加载数据
         List<Object[]> data = DatarPocessing.loadDataFromFile();
@@ -153,6 +171,16 @@ public class BusQuerySystem {
             intiBuses();
         } else {
             System.out.println("文件读取失败");
+        }
+    }
+    public static void reloadDataFromDatabase() {
+        // 从数据库中重新加载数据
+        List<Object[]> data = DatarPocessing.loadDataFromDataBase();
+        if (data != null) {
+            BusQuerySystem.data = data;
+            intiBuses();
+        } else {
+            System.out.println("数据库读取失败");
         }
     }
 }
