@@ -1,7 +1,7 @@
 package com.swing.zcy.BQS.UI.MainWindow.CenterPages;
 
 import com.swing.zcy.BQS.BusQuerySystem;
-import com.swing.zcy.BQS.DatarPocessing;
+import com.swing.zcy.BQS.DataProcessing;
 import com.swing.zcy.BQS.MyDatabase.MyDatabase;
 import com.swing.zcy.BQS.Utils.MyColor;
 import com.swing.zcy.BQS.Utils.MessageBox;
@@ -85,7 +85,7 @@ public class Page3 extends JPanel{
                     MessageBox.showMessageDialog("已存在表，无需重复创建", JOptionPane.INFORMATION_MESSAGE);
                 }
                 else {
-                    MyDatabase.cteateTable();
+                    MyDatabase.createTable();
                     BusQuerySystem.haveTable = true;
                     MessageBox.showMessageDialog("创建成功，表名为: buses", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -103,6 +103,7 @@ public class Page3 extends JPanel{
                 // 添加一行空白
                 myTableModel.addRow(new Object[BusQuerySystem.maxCapacity]);
                 scrollPane.getViewport().setViewPosition(new Point(0, table.getHeight()));
+                BusQuerySystem.isDataChanged = true;
             }
         });
         this.add(this.addNewDataBtn);
@@ -164,7 +165,7 @@ public class Page3 extends JPanel{
                         BusQuerySystem.data = tempMyTableModel.getAllData(); // 更新BusQuerySystem.data中的数据
                         if (BusQuerySystem.dataSources == 2) {
                             // 同步更新数据库
-                            DatarPocessing.saveDatatoDatabase(BusQuerySystem.data);
+                            DataProcessing.saveDatatoDatabase(BusQuerySystem.data);
                             System.out.println("数据源更新成功");
                             // 刷新Buses
                             BusQuerySystem.reloadDataFromDatabase();
@@ -172,7 +173,7 @@ public class Page3 extends JPanel{
                         }
                         else {
                             // 同步更新文件
-                            DatarPocessing.saveDatatoFile(BusQuerySystem.data);
+                            DataProcessing.saveDatatoFile(BusQuerySystem.data);
                             System.out.println("数据源更新成功");
                             // 刷新Buses
                             BusQuerySystem.reloadDataFromFile();

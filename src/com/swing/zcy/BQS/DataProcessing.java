@@ -1,6 +1,5 @@
 package com.swing.zcy.BQS;
 
-import com.swing.zcy.BQS.MyDatabase.MyDatabase;
 import com.swing.zcy.BQS.Utils.MessageBox;
 
 import javax.swing.*;
@@ -17,12 +16,12 @@ import java.util.regex.Pattern;
 
 import static com.swing.zcy.BQS.MyDatabase.MyDatabase.*;
 
-public class DatarPocessing {
+public class DataProcessing {
     private static List<String> preData;
     private static List<Object[]> data = new ArrayList<>();
     private static Charset originalCharset;
     private static int maxColumn;
-    public DatarPocessing() {}
+    public DataProcessing() {}
     public static List<Object[]> loadDataFromFile() {
         try {
             preData = Files.readAllLines(Paths.get(BusQuerySystem.dataFilePath), Charset.forName("GBK"));
@@ -136,7 +135,7 @@ public class DatarPocessing {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        MessageBox.showMessageDialog("已同步更新的文件", JOptionPane.INFORMATION_MESSAGE);
+        MessageBox.showMessageDialog("已同步更新到文件", JOptionPane.INFORMATION_MESSAGE);
     }
 
     // 从数据库获取数据

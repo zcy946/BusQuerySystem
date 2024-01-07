@@ -76,10 +76,12 @@ public class MainWindow extends JFrame {
                 panelCenter.page1.searchBtn.setBounds(panelCenter.page0.scrollPane.getX() + panelCenter.page0.scrollPane.getWidth() - 180 - 100 - 8, panelCenter.page0.scrollPane.getY() - 40 - 20, 100, 40);
 
                 panelCenter.page2.scrollPane.setBounds(20, 150, panelCenter.getWidth() - 55, panelCenter.getHeight() - 205);
-                panelCenter.page2.searchBar.setBounds(panelCenter.page0.scrollPane.getX(), panelCenter.page0.scrollPane.getY() - 40 - 20, 300, 40);
+                panelCenter.page2.searchBar.setBounds(panelCenter.page0.scrollPane.getX(), panelCenter.page0.scrollPane.getY() - 40 - 20, panelCenter.getWidth() / 4, 40);
+                panelCenter.page2.searchField.setBounds(5 + 30, 5, panelCenter.page2.searchBar.getWidth() - 30 - 10, 30);
                 panelCenter.page2.exchangeLabel.setBounds(panelCenter.page2.searchBar.getX() + panelCenter.page2.searchBar.getWidth() + 8, panelCenter.page2.searchBar.getY(), 40, 40);
                 panelCenter.page2.searchBtn.setBounds(panelCenter.page0.scrollPane.getX() + panelCenter.page0.scrollPane.getWidth() - 180 - 100 - 8, panelCenter.page0.scrollPane.getY() - 40 - 20, 100, 40);
-                panelCenter.page2.searchBar2.setBounds(panelCenter.page2.exchangeLabel.getX() + panelCenter.page2.exchangeLabel.getWidth() + 8, panelCenter.page0.scrollPane.getY() - 40 - 20, 300, 40);
+                panelCenter.page2.searchBar2.setBounds(panelCenter.page2.exchangeLabel.getX() + panelCenter.page2.exchangeLabel.getWidth() + 8, panelCenter.page0.scrollPane.getY() - 40 - 20, panelCenter.getWidth() / 4, 40);
+                panelCenter.page2.searchField2.setBounds(5 + 30, 5, panelCenter.page2.searchBar2.getWidth() - 30 - 10, 30);
                 panelCenter.page2.showAllRoutesInfo.setBounds(panelCenter.page0.scrollPane.getX() + panelCenter.page0.scrollPane.getWidth() - 180, panelCenter.page0.scrollPane.getY() - 40 - 20, 180, 40);
 
                 panelCenter.page3.scrollPane.setBounds(20, 150, panelCenter.getWidth() - 55, panelCenter.getHeight() - 205);

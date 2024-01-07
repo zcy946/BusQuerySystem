@@ -21,7 +21,7 @@ public class BusQuerySystem {
     public static String PASSWORD;
     public static boolean isLogin;
     public static boolean isDataChanged;
-    private DatarPocessing dataProcessing;
+    private DataProcessing dataProcessing;
     public static List<Object[]> data;
     public static int maxCapacity;
     public static List<Bus> buses;
@@ -54,12 +54,12 @@ public class BusQuerySystem {
     }
     // 读取数据[默认从文件读取]
     private void loadData() {
-        this.dataProcessing = new DatarPocessing();
+        this.dataProcessing = new DataProcessing();
         if (BusQuerySystem.dataSources == 2) {
-            data = DatarPocessing.loadDataFromDataBase();
+            data = DataProcessing.loadDataFromDataBase();
         }
         else {
-            data = DatarPocessing.loadDataFromFile();
+            data = DataProcessing.loadDataFromFile();
         }
         if (data.isEmpty()) {
             MessageBox.showMessageDialog("未检测到数据源");
@@ -163,9 +163,10 @@ public class BusQuerySystem {
         return result;
     }
 
+    // 重新从文件读取数据
     public static void reloadDataFromFile() {
         // 从文件中重新加载数据
-        List<Object[]> data = DatarPocessing.loadDataFromFile();
+        List<Object[]> data = DataProcessing.loadDataFromFile();
         if (data != null) {
             BusQuerySystem.data = data;
             intiBuses();
@@ -173,9 +174,10 @@ public class BusQuerySystem {
             System.out.println("文件读取失败");
         }
     }
+    // 重新从数据库读取数据
     public static void reloadDataFromDatabase() {
         // 从数据库中重新加载数据
-        List<Object[]> data = DatarPocessing.loadDataFromDataBase();
+        List<Object[]> data = DataProcessing.loadDataFromDataBase();
         if (data != null) {
             BusQuerySystem.data = data;
             intiBuses();

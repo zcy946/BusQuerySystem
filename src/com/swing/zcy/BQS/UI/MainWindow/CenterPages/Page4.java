@@ -11,7 +11,6 @@ import java.awt.event.*;
 
 public class Page4 extends JPanel{
     public JTable table;
-    public JScrollPane jScrollPane;
     public JLabel accountText;
     public JLabel passWordText;
     public JTextField accountField;
@@ -102,7 +101,7 @@ public class Page4 extends JPanel{
         this.add(passwordField);
     }
 
-    private  void initButtons() {
+    private void initButtons() {
         this.loginBtn = new JButton("Log in");
 //        this.loginBtn.setBackground(Color.decode(MyColor.selectedColor));
         this.loginBtn.setBackground(Color.decode(MyColor.buttonColor));

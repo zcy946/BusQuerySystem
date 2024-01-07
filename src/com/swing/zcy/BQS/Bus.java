@@ -119,7 +119,7 @@ public class Bus {
         }
         return false;
     }
-    // 得到站点在所有站点中国的下标
+    // 得到站点在所有站点中的下标
     public int getIndexOfStation(String searchedStation) {
         int index;
         for (index = 0; index < this.stations.length; index++) {

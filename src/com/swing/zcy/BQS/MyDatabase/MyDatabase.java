@@ -3,14 +3,7 @@ package com.swing.zcy.BQS.MyDatabase;
 import com.swing.zcy.BQS.BusQuerySystem;
 import com.swing.zcy.BQS.Utils.MessageBox;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.swing.zcy.BQS.BusQuerySystem.userConfigFilePath;
 
 public class MyDatabase {
     public static String url;
@@ -35,7 +28,7 @@ public class MyDatabase {
         }
     }
 
-    public static void cteateTable() {
+    public static void createTable() {
         // 创建空表
         StringBuilder createTableSQL = new StringBuilder("CREATE TABLE Buses (" +
                 "routeID VARCHAR(50) PRIMARY KEY, " +

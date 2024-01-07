@@ -76,7 +76,7 @@ public class Page2 extends JPanel {
 
         this.searchField = new JTextField();
         this.searchField.setBackground(Color.decode(MyColor.selectedFontColor));
-        this.searchField.setBounds(5 + 30, 5, 300 - 30 - 10, 30);
+//        this.searchField.setBounds(5 + 30, 5, 300 - 30 - 10, 30);
         this.searchField.setBorder(BorderFactory.createEmptyBorder());
         this.searchField.setText("输入起点");
         this.searchField.setForeground(Color.decode(MyColor.fontAnnotationColor2));
@@ -146,7 +146,7 @@ public class Page2 extends JPanel {
 
         this.searchField2 = new JTextField();
         this.searchField2.setBackground(Color.decode(MyColor.selectedFontColor));
-        this.searchField2.setBounds(5 + 30, 5, 300 - 30 - 10, 30);
+//        this.searchField2.setBounds(5 + 30, 5, 300 - 30 - 10, 30);
         this.searchField2.setBorder(BorderFactory.createEmptyBorder());
         this.searchField2.setText("输入终点");
         this.searchField2.setForeground(Color.decode(MyColor.fontAnnotationColor2));
